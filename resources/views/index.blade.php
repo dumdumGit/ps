@@ -36,7 +36,7 @@
 	header-img start
 	============================== -->
     <section id="hero-area">
-      <img class="img-responsive" src="images/header.jpg" alt="">
+      <img class="img-responsive" src="images/banner.jpg" alt="">
     </section>
 	<!--
     Header start
@@ -87,12 +87,35 @@
 	<!-- Html Style -->
 	<div class="container">
 		<div class="row">
+
+
+			<div class="col-md-4">
+				<form method="post" action="#">
+					<div class="form-group panel panel-default">
+						<div class="panel-heading">
+							<h3>Login</h3>
+						</div>
+						<div class="input-group input-group-sm panel-body">
+							{{ csrf_field() }}
+							<input style="margin-bottom:10px;" type="email" class="form-control" placeholder="Email">
+							<input style="margin-bottom:10px;" type="password" class="form-control" placeholder="Password">
+							<br>
+							<button style="margin-bottom:10px;" type="submit" class="btn btn-sm btn-orange"><span>Login</span></button>
+							<br>
+							<p>Belum memiliki akun?  <a href="/register">Buat Akun</a></p>
+						</div>
+					</div>
+					<div id="form-subscribe-footer" class="form-output"></div>
+				</form>
+			</div>
+
+
 			<div class="col-md-8">
-				<h2 class="heading-line text-center">Tentang Laboratorium Manajemen Dasar</h2>
+				<h2 class="heading-line text-center">Tentang Pusat Studi Desain Otomotif/CARS </h2>
 				<div class="row mt-50">
 					<div class="col-xs-12">
 						<p style="font-size:20px;">
-							<span class="dropcap style-1">L</span>aboratorium Manajemen Dasar merupakan salah satu Laboratorium di Universitas Gunadarma untuk mahasiswa fakultas Ekonomi. Ruangan staff terletak di E52 dan J1421 sedangkan pelaksanaan praktikum di E532, E533, H402, H408, H4045, C018, K1, L2 dan J1423.
+							Center for Automotive Research (CAR) adalah sebuah pusat riset otomotif di Universitas Gunadarma difokuskan pada studi mutakhir untuk meningkatkan inovasi dan daya saing otomotif didasarkan pada kondisi infrastruktur lokal.
 						</p>
 					</div>
 				</div> <!-- end row -->
@@ -102,23 +125,7 @@
 
 			</div> --}}
 
-			<div class="col-md-4">
-				<form method="post" action="#">
-					<div class="form-group">
-						<div class="input-group input-group-sm">
-							<input placeholder="Input Kelas" type="text" name="kelas" class="form-control" autofocus>
-							{{ csrf_field() }}
-							<span class="input-group-btn">
-								<button type="submit" class="btn btn-sm btn-orange btn-icon"><span>Cari Jadwal</span>
-								<i class="fa fa-angle-right"></i></button>
 
-							</span>
-						</div>
-					</div>
-					<div id="form-subscribe-footer" class="form-output"></div>
-				</form>
-
-			</div>
 		</div>
 	</div>
 	<section class="section-wrap pb-0">
@@ -129,16 +136,13 @@
 				<div class="col-sm-6">
 					<blockquote class="blockquote-style-1 mb-30">
 							<b>Visi : </b>
-							<br>Pada tahun 2022 menjadi laboratorium penyelenggara praktikum yang bereputasi Internasional, memiliki jejaring global, dan memberikan kontribusi signifikan bagi peningkatan daya saing bangsa khususnya bidang Manajemen berbasis IT.
+							<br>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 					</blockquote>
 				</div>
 				<div class="col-sm-6">
 					<blockquote class="blockquote-style-2">
 						<b>Misi : </b>
-						<br> <ol>
-							<li>Melaksanakan praktikum untuk menghasilkan sarjana Manajemen yang profesional dan mampu mengikuti perkembangan ilmu pengetahuan dan teknologi serta mampu bersaing di lingkungan global.</li>
-							<li>Melaksanakan kegiatan pengembangan dalam bidang Manajemen sehingga dapat memberikan kontribusi kepada kemajuan ilmu pengetahuan.</li>
-						</ol>
+						<br> Misi kami adalah untuk mengelaborasi simulasi metodologi yang baru menggunakan teknologi mutakhir pada sistem prototyping. Sistem itu sendiri terdiri dari hierarki model dengan berbagai parameter yang dapat disesuaikan untuk memenuhi berbagai tujuan simulasi dan secara signifikan dapat berdampak pada proses pengembangan produk pada industri manufaktur otomotif.
 					</blockquote>
 				</div>
 			</div>
