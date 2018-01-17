@@ -36,4 +36,17 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    public function role()
+    {
+      return $this->belongsTo (Role::class,'roles_id');
+    }
+
+    public function punyaRule($namaRule)
+    {
+      if($this->role->namaRule == $namaRule) {
+        return true;
+      }
+      return false;
+    }
 }

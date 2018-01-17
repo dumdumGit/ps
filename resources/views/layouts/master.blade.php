@@ -37,7 +37,7 @@
 	header-img start
 	============================== -->
     <section id="hero-area">
-      <img class="img-responsive" src="{{ asset('images/banner.jpg'); }}" alt="">
+      <img class="img-responsive" src="{{ asset('images/banner.jpg') }}" alt="">
     </section>
 	<!--
     Header start
@@ -57,7 +57,7 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                               </button>
-                                  <a class="navbar-brand" href="#">
+                                  <a class="navbar-brand" href="/">
                                    <h3>@yield('title')</h3>
                                   </a>
 
