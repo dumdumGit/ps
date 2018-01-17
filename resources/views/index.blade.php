@@ -9,34 +9,34 @@
 		<!-- CSS
         ================================================ -->
         <!-- Owl Carousel -->
-		<link rel="stylesheet" href="css/owl.carousel.css">
-        <!-- bootstrap.min css -->
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-        <!-- Font-awesome.min css -->
-		<link rel="stylesheet" href="css/font-awesome.min.css">
-		<!-- Main Stylesheet -->
-		<link rel="stylesheet" href="css/animate.min.css">
+				<link rel="stylesheet" href="{{ URL::asset('css/owl.carousel.css') }}">
+		        <!-- bootstrap.min css -->
+				<link rel="stylesheet" href="{{URL::asset('css/bootstrap.min.css') }}">
+		        <!-- Font-awesome.min css -->
+				<link rel="stylesheet" href="{{URL::asset('css/font-awesome.min.css') }}">
+				<!-- Main Stylesheet -->
+				<link rel="stylesheet" href="{{URL::asset('css/animate.min.css') }}">
 
-		<link rel="stylesheet" href="css/main.css">
-        <!-- Responsive Stylesheet -->
-		<link rel="stylesheet" href="css/responsive.css">
+				<link rel="stylesheet" href="{{URL::asset('css/main.css') }}">
+		        <!-- Responsive Stylesheet -->
+				<link rel="stylesheet" href="{{URL::asset('css/responsive.css') }}">
 		<!-- Js -->
     <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
-    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
-    <script src="js/jquery.nav.js"></script>
-    <script src="js/jquery.sticky.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/plugins.js"></script>
-    <script src="js/wow.min.js"></script>
-    <script src="js/main.js"></script>
+    <script>window.jQuery || document.write('<script src="{{ URL::asset('js/vendor/jquery-1.10.2.min.js')}}"><\/script>')</script>
+		<script src="{{ URL::asset('js/jquery.nav.js')}}"></script>
+    <script src="{{ URL::asset('js/jquery.sticky.js')}}"></script>
+    <script src="{{ URL::asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{ URL::asset('js/plugins.js')}}"></script>
+    <script src="{{ URL::asset('js/wow.min.js')}}"></script>
+    <script src="{{ URL::asset('js/main.js')}}"></script>
 	</head>
 	<body>
 	<!--
 	header-img start
 	============================== -->
     <section id="hero-area">
-      <img class="img-responsive" src="images/banner.jpg" alt="">
+      <img class="img-responsive" src="{{ asset('images/banner.jpg') }}" alt="">
     </section>
 	<!--
     Header start
@@ -65,7 +65,7 @@
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                               <ul class="nav navbar-nav navbar-right" id="top-nav">
-                                <li><a href="/">Home</a></li>
+                                <li class="active"><a href="/">Home</a></li>
                                 <li><a href="/profil">Profil</a></li>
                                 <li><a href="/tata-tertib">Berita</a></li>
                                 <li><a href="/jadwal">Publikasi</a></li>
@@ -237,18 +237,17 @@
                         <div class="info">
                             <ul>
                                 <li>
-                                  <h4><i class="fa fa-phone"></i>Telephone</h4>
-                                  <p>085770188852(SMS only)</p>
+                                  <h4><i class="fa fa-phone"></i>Telpon</h4>
+                                  <p>0857701XXXX(SMS only)</p>
 
                                 </li>
                                 <li>
                                   <h4><i class="fa fa-map-marker"></i>Alamat</h4>
-                                  <p>Kampus Kelapa Dua E52 - Kampus Kalimalang J1423 (Staff)</p>
+                                  <p>Jalan Margonda Raya No 100.</p>
                                 </li>
                                 <li>
                                   <h4><i class="fa fa-envelope"></i>E-mail</h4>
-                                  <p>manajemen.dasar@gmail.com</p>
-																	<p>manajemen_dasar@yahoo.com</p>
+                                  <p>admin@ps-otomotif.gunadarma.ac.id</p>
 
                                 </li>
                             </ul>
@@ -258,7 +257,7 @@
                 <!-- .col-md-4 close -->
                 <div class="col-md-4">
                     <div class="block wow fadeInLeft"  data-wow-delay="700ms">
-                        <h3>Postingan <span> Blog Terbaru</span></h3>
+                        <h3>Berita <span> Terbaru</span></h3>
                         <div class="blog">
                             <ul>
                                 <li>
@@ -281,21 +280,6 @@
                             <h3>Universitas <span>Gunadarma</span></h3>
                             <a target="_blank" href="http://gunadarma.ac.id"><img class="img-responsive" src="images/logogundar.png" /></a>
                         </div>
-                        <div class="social-media-link">
-                            <h3>Follow <span>US</span></h3>
-                            <ul>
-                                <li>
-                                    <a target="_blank" href="http://twitter/labmadas_feug">
-                                        <i class="fa fa-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a target="_blank" href="http://instagram.com/labmadas_feug">
-                                        <i class="fa fa-instagram"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 <!-- .col-md-4 close -->
@@ -310,7 +294,7 @@
             <div class="row">
                 <div class="col-md-12 col-sm-12">
                     <div class="block">
-                        <p> The Official Site of Lab Manajemen Dasar <a href="#"></a></p>
+                        <p> Pusat Studi Desain Otomotif, Coded by <a href="http://c3budiman.web.id">c3budiman</a></p>
                     </div>
                 </div>
             </div>
