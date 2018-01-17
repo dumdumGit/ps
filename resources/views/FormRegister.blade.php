@@ -4,6 +4,19 @@
   Pusat Studi Desain_Otomotif
 @endsection
 
+@section('listnya')
+  <li><a href="/">Home</a></li>
+  <li><a href="/profil">Profil</a></li>
+  <li><a href="/tata-tertib">Berita</a></li>
+  <li><a href="/jadwal">Publikasi</a></li>
+  <li><a href="/berita">Kegiatan</a></li>
+  <li><a href="/kelulusan">Riset</a></li>
+  <li><a href="/rekrut">Kerjasama</a></li>
+  <li><a href="/rekrut">Forum</a></li>
+  <li><a href="/rekrut">Konsultasi</a></li>
+  <li><a href="/rekrut">Video</a></li>
+@endsection
+
 @section('konten')
   <div class="formnya">
     <div class="container">

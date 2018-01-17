@@ -7,3 +7,5 @@ Route::get('/', function () {
 
 Route::get('/register','regisController@getRegis');
 Route::post('register', 'regisController@postRegis');
+
+Route::post('/','loginController@postLogin');
