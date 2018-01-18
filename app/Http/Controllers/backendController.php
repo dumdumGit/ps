@@ -19,6 +19,4 @@ class backendController extends Controller
     Auth::logout();
     return redirect('/')->with('status', 'Anda Telah berhasil logout!');
   }
-
-
 }
