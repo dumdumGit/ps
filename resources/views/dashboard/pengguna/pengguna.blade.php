@@ -1,5 +1,9 @@
 @extends('dashboard.layouts.master')
 
+@section('title')
+  Desain Otomotif | Atur Pengguna
+@endsection
+
 @section('list')
   <li><a href="/dashboard"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
   <li class="active"><a href="/pengguna"><i class="fa fa-users"></i> <span>Mengatur Pengguna</span></a></li>
@@ -53,9 +57,6 @@
 @endsection
 
 @section('konten')
-
-
-
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
@@ -104,49 +105,6 @@
     </div>
   </section>
 
-    @section('modals')
-      <div class="modal fade" id="add-user">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Tambah User</h4>
-            </div>
-            <div class="modal-body">
-              <div class="box box-info">
-                  <div class="box-body">
-                    <form class="" action="" method="post">
-                     {{ csrf_field() }}
-                    <div class="input-group">
-                      <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                      <input type="text" class="form-control" name="nama" placeholder="Nama">
-                    </div>
-                    <br>
-                    <div class="input-group">
-                      <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                      <input type="email" class="form-control" name="email" placeholder="Email">
-                    </div>
-                    <br>
-                    <div class="input-group">
-                      <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
-                      <input type="password" class="form-control" name="password" placeholder="Password">
-                    </div>
-                    <br>
-                </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Batalkan</button>
-              <button type="submit" class="btn btn-primary" value="submit">Tambah User</button>
-              </form>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-      </div>
-      <!-- /.modal -->
-    @endsection
-
 
       <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
       <script type="text/javascript">
@@ -169,4 +127,47 @@
       });
       </script>
 
+@endsection
+
+@section('modals')
+  <div class="modal fade" id="add-user">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Tambah User</h4>
+        </div>
+        <div class="modal-body">
+          <div class="box box-info">
+              <div class="box-body">
+                <form class="" action="" method="post">
+                 {{ csrf_field() }}
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                  <input type="text" class="form-control" name="nama" placeholder="Nama">
+                </div>
+                <br>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                  <input type="email" class="form-control" name="email" placeholder="Email">
+                </div>
+                <br>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
+                  <input type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+                <br>
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Batalkan</button>
+          <button type="submit" class="btn btn-primary" value="submit">Tambah User</button>
+          </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
 @endsection

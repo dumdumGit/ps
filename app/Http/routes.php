@@ -36,6 +36,15 @@ Route::get('pengguna/{id}/delete', 'adminController@delete');
 Route::put('pengguna/{id}', 'adminController@update');
 Route::delete('pengguna/{id}', 'adminController@destroy');
 
+Route::get('aturberita','adminController@getAturBerita');
+Route::get('berita/ajax', 'adminController@dataBeritaDT')->name('berita/ajax');
+Route::get('berita/baru','adminController@getBeritaBaru');
+Route::post('berita/baru', 'adminController@postBeritaBaru');
+Route::get('berita/{id}/edit', 'adminController@editBerita');
+Route::put('berita/{id}', 'adminController@updateBerita');
+Route::get('berita/{id}/delete', 'adminController@deleteBerita');
+Route::delete('berita/{id}', 'adminController@destroyBerita');
+Route::get('berita/{slug}','adminController@getBeritaSingle');
 
 
 
