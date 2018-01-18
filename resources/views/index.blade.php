@@ -67,14 +67,14 @@
                               <ul class="nav navbar-nav navbar-right" id="top-nav">
                                 <li class="active"><a href="/">Home</a></li>
                                 <li><a href="/profil">Profil</a></li>
-                                <li><a href="/tata-tertib">Berita</a></li>
-                                <li><a href="/jadwal">Publikasi</a></li>
-                                <li><a href="/berita">Kegiatan</a></li>
-                                <li><a href="/kelulusan">Riset</a></li>
-                                <li><a href="/rekrut">Kerjasama</a></li>
-																<li><a href="/rekrut">Forum</a></li>
-																<li><a href="/rekrut">Konsultasi</a></li>
-																<li><a href="/rekrut">Video</a></li>
+                                <li><a href="/berita">Berita</a></li>
+                                <li><a href="/publikasi">Publikasi</a></li>
+                                <li><a href="/kegiatan">Kegiatan</a></li>
+                                <li><a href="/riset">Riset</a></li>
+                                <li><a href="/kerjasama">Kerjasama</a></li>
+																<li><a href="/forum">Forum</a></li>
+																<li><a href="/konsultasi">Konsultasi</a></li>
+																<li><a href="/video">Video</a></li>
                               </ul>
                             </div><!-- /.navbar-collapse -->
                           </div><!-- /.container-fluid -->
@@ -87,27 +87,55 @@
 	<!-- Html Style -->
 	<div class="container">
 		<div class="row">
+			@if ($user = Auth::user())
+				<div class="col-md-4">
 
+						<div class="form-group panel panel-default">
+							<div class="panel-heading">
+								User
+							</div>
+							<div class="panel-body">
+								<p>Nama anda : {{$user->name}}</p>
+								<?php
+									$rolesnya = DB::table('roles')->where('id','=',$user->roles_id)->first()->namaRule;
+								 ?>
+								 @if ($rolesnya == "Admin")
+									 <p>Roles anda : {{$rolesnya}}</p>
+									 <br>
+									 <a class="btn btn-sm btn-orange" href="/dashboard">Dashboard</a>
+									 <a class="pull-right btn btn-sm btn-orange" href="/logout">Log Out</a>
+								 	@else
+										<p>Roles anda : {{$rolesnya}}</p> <br>
+ 	 									<a class="pull-right btn btn-sm btn-orange" href="/logout">Log Out</a>
+								 @endif
 
-			<div class="col-md-4">
-				<form method="post" action="#">
-					<div class="form-group panel panel-default">
-						<div class="panel-heading">
-							<h3>Login</h3>
+							</div>
 						</div>
-						<div class="input-group input-group-sm panel-body">
-							{{ csrf_field() }}
-							<input style="margin-bottom:10px;" type="email" class="form-control" placeholder="Email">
-							<input style="margin-bottom:10px;" type="password" class="form-control" placeholder="Password">
-							<br>
-							<button style="margin-bottom:10px;" type="submit" class="btn btn-sm btn-orange"><span>Login</span></button>
-							<br>
-							<p>Belum memiliki akun?  <a href="/register">Buat Akun</a></p>
-						</div>
+				</div>
+				@else
+					<div class="col-md-4">
+						<form method="post" action="{{url(action("loginController@postLogin"))}}">
+							<div class="form-group panel panel-default">
+								<div class="panel-heading">
+									<h3>Login</h3>
+								</div>
+								<div class="input-group input-group-sm panel-body">
+									{{ csrf_field() }}
+									<input name="email" style="margin-bottom:10px;" type="email" class="form-control" placeholder="Email">
+									<input name="password" style="margin-bottom:10px;" type="password" class="form-control" placeholder="Password">
+									<br>
+									<button style="margin-bottom:10px;" type="submit" class="btn btn-sm btn-orange"><span>Login</span></button>
+									<br>
+									<p>Belum memiliki akun?  <a href="/register">Buat Akun</a></p>
+								</div>
+							</div>
+							<div id="form-subscribe-footer" class="form-output"></div>
+						</form>
 					</div>
-					<div id="form-subscribe-footer" class="form-output"></div>
-				</form>
-			</div>
+			@endif
+
+
+
 
 
 			<div class="col-md-8">

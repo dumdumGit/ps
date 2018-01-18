@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class loginController extends Controller
 {
@@ -26,7 +26,7 @@ class loginController extends Controller
         'password' => $request->password
       ]))
     {
-      return redirect('dashboard');
+      return redirect('/');
     }
     else {
       return Redirect::back()->withErrors(['Password atau email anda salah!']);
