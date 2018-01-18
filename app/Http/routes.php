@@ -4,6 +4,14 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('profil', function () {
+    return view('profil');
+});
+
+Route::get('berita', function () {
+    return view('berita');
+});
+
 
 Route::get('/register','regisController@getRegis');
 Route::post('register', 'regisController@postRegis');
