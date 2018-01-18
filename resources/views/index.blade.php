@@ -99,14 +99,19 @@
 								<?php
 									$rolesnya = DB::table('roles')->where('id','=',$user->roles_id)->first()->namaRule;
 								 ?>
-								 @if ($rolesnya == "Admin")
+								 @if ($rolesnya == "Super Admin")
 									 <p>Roles anda : {{$rolesnya}}</p>
 									 <br>
 									 <a class="btn btn-sm btn-orange" href="/dashboard">Dashboard</a>
 									 <a class="pull-right btn btn-sm btn-orange" href="/logout">Log Out</a>
-								 	@else
+								 @elseif ($rolesnya == "Admin")
+									 <p>Roles anda : {{$rolesnya}}</p>
+									 <br>
+									 <a class="btn btn-sm btn-orange" href="/dashboard">Dashboard</a>
+									 <a class="pull-right btn btn-sm btn-orange" href="/logout">Log Out</a>
+									@else
 										<p>Roles anda : {{$rolesnya}}</p> <br>
- 	 									<a class="pull-right btn btn-sm btn-orange" href="/logout">Log Out</a>
+											<a class="pull-right btn btn-sm btn-orange" href="/logout">Log Out</a>
 								 @endif
 
 							</div>

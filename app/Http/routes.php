@@ -46,30 +46,15 @@ Route::get('berita/{id}/delete', 'adminController@deleteBerita');
 Route::delete('berita/{id}', 'adminController@destroyBerita');
 Route::get('berita/{slug}','adminController@getBeritaSingle');
 
+Route::get('atur-publikasi','adminController@getAturPublikasi');
+Route::get('publikasi/json', 'adminController@dataPublikasiDT')->name('Publikasi/json');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Route::get('publikasi/baru','adminController@getPublikasiBaru');
+Route::post('publikasi/baru', 'adminController@storepublikasiBaru');
+Route::get('publikasi/{id}/rename','adminController@getRenamePublikasi');
+Route::put('publikasi/{id}', 'adminController@update_Publikasi');
+Route::get('publikasi/{id}/edit','adminController@getEditPublikasi');
+Route::get('publikasi/{id}/delete ','adminController@destroyPublikasi');
 
 
 //<start bagian auth only... another rule maybe...
