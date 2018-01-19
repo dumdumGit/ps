@@ -192,7 +192,7 @@ class adminController extends Controller
         }
 
 
-//publikasi
+        //publikasi
         public function getPublikasiBaru()
         {
           return view('dashboard.publikasi.publikasibaru');
@@ -202,11 +202,8 @@ class adminController extends Controller
         {
           if ($request->hasFile('tes')) {
             $namafile = $request->file('tes')->getClientOriginalName();
-
             $ext = $request->file('tes')->getClientOriginalExtension();
-
-            $lokasifileskr = 'storage/publikasi/'.$namafile;
-
+            $lokasifileskr = '/storage/publikasi/'.$namafile;
 
             //cek jika file sudah ada...
             if(File::exists($lokasifileskr)){
@@ -218,54 +215,65 @@ class adminController extends Controller
               return Redirect::back()->withErrors(['Nama Materi Tidak Boleh Kosong']);
             }
 
-
             //yg paling penting cek extension, no php allowed
             if ($ext == "pdf" || $ext == "png" || $ext == "jpg" || $ext == "docx" || $ext == "doc") {
-
+              //store
               $destinasi = public_path('storage/publikasi/');
               $proses = $request->file('tes')->move($destinasi,$namafile);
-              //$request->file(‘file_photo’)->move($destinationPath, $fileName);
-              $lokasi = $destinasi.$namafile;
-
+              //masukin db
               $publikasi = new publikasi();
               $publikasi->judul = strip_tags(Input::get('judul'));
               $publikasi->konten = Input::get('desc');
-              $publikasi->lokasi = $lokasi;
-              $publikasi->author = Input::get('author');
+              $publikasi->lokasi = $lokasifileskr;
+              $publikasi->author = Auth::user()->id;
               $publikasi->save();
-              return redirect('atur-materi')->with('status', 'File Berhasil Di Upload!');
+              return redirect('aturpublikasi')->with('status', 'File Berhasil Di Upload!');
+            } else {
+              return Redirect::back()->withErrors(['format file salah, tidak bisa diupload']);
             }
-            return Redirect::back()->withErrors(['file tidak sesuai, tidak bisa diupload']);
           } else {
-            return Redirect::back()->withErrors(['file tidak terbaca, tidak bisa diupload']);
+            $publikasi = new publikasi();
+            $publikasi->judul = strip_tags(Input::get('judul'));
+            $publikasi->konten = Input::get('desc');
+            $publikasi->lokasi = "";
+            $publikasi->author = Auth::user()->id;
+            $publikasi->save();
+            return redirect('aturpublikasi')->with('status', 'Publikasi telah di publikasikan!');
           }
         }
 
         public function getAturPublikasi()
         {
-          $materi = DB::table('materi')->get();
-          return view('dashboard.materi.atur-materi', ['materi' => $materi]);
+          $materi = DB::table('publikasi')->get();
+          return view('dashboard.publikasi.atur-publikasi', ['materi' => $materi]);
         }
 
         public function dataPublikasiDT()
         {
-            return \DataTables::of(materi::query())
-                ->addColumn('action', function ($materi) {
+          $aktifuser = Auth::user()->id;
+          $publikasiByAuthor = publikasi::where('author','=',$aktifuser)->get();
+
+            //return Datatables::of(publikasi::query())
+            return Datatables::of($publikasiByAuthor)
+                ->addColumn('action', function ($publikasi) {
                     return
-                     '<a style="margin-left:5px" href="/'.$materi->lokasi_materi.'" target="_blank" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
-                    .'<a style="margin-left:5px" href="/materi/'.$materi->id.'/rename" class="btn btn-xs btn-info"><i class="glyphicon glyphicon-edit"></i> Rename</a>'
-                    .'<a style="margin-left:5px" href="/materi/'.$materi->id.'/edit" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-edit"></i> Edit</a>'
-                    .'<a style="margin-left:5px" href="/materi/'.$materi->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
+                     '<a style="margin-left:5px" href="'.$publikasi->lokasi.'" target="_blank" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
+                    .'<a style="margin-left:5px" href="/publikasi/'.$publikasi->id.'/edit" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-edit"></i> Edit</a>'
+                    .'<a style="margin-left:5px" href="/publikasi/'.$publikasi->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
+                })
+                ->addColumn('namaAuthor', function($publikasi) {
+                  $namanya = DB::table('users')->where('id','=',$publikasi->author)->first()->name;
+                  return $namanya;
                 })
                 ->make(true);
         }
 
         public function getEditPublikasi($id)
         {
-          $materi = materi::find($id);
-          if(!$materi)
+          $publikasi = publikasi::find($id);
+          if(!$publikasi)
           abort(404);
-          return view('dashboard.materi.edit-materi', ['materi' => $materi]);
+          return view('dashboard.publikasi.edit-publikasi', ['publikasi' => $publikasi]);
         }
 
         public function getRenamePublikasi($id)
@@ -276,20 +284,21 @@ class adminController extends Controller
           return view('dashboard.materi.rename-materi', ['materi' => $materi]);
         }
 
-        public function update_materi(Request $request, $id)
+        public function update_Publikasi(Request $request, $id)
         {
           if ($request->hasFile('tes')) {
             $namafile = $request->file('tes')->getClientOriginalName();
             $ext = $request->file('tes')->getClientOriginalExtension();
-            $lokasifileskr = 'storage/materi/'.$namafile;
-
-            if (empty(Input::get('namafile'))) {
-              return Redirect::back()->withErrors(['Nama Materi Tidak Boleh Kosong']);
-            }
+            $lokasifileskr = '/storage/publikasi/'.$namafile;
 
             //cek jika file sudah ada...
             if(File::exists($lokasifileskr)){
               return Redirect::back()->withErrors(['file sudah ada, coba rename!']);
+            }
+
+            //cek jika nama judul materi ga ditulis
+            if (empty(Input::get('judul'))) {
+              return Redirect::back()->withErrors(['Nama Materi Tidak Boleh Kosong']);
             }
 
             if ($ext == "pdf" ||
@@ -299,34 +308,56 @@ class adminController extends Controller
                 $ext == "xlsx" ||
                 $ext == "doc")
             {
-              $location = Storage::putFileAs('public/materi',$request->file('tes'),$namafile);
-              $lokasi = str_replace("public","storage",$location);
-              $materi = materi::find($id);
-              $materi->nama_materi = strip_tags(Input::get('namafile'));
-              $materi->lokasi_materi = $lokasi;
-              $materi->author = Input::get('author');
-              $materi->save();
-              return redirect('atur-materi')->with('status', 'File Berhasil Di Upload!');
+              $publikasi = publikasi::find($id);
+              //delete file sebelumnya
+              $file = $publikasi->lokasi;
+              if ($file == "") {
+                $publikasi->delete();
+                return redirect('aturpublikasi');
+              }
+              $filenya = str_replace("/storage","",$file);
+              Storage::delete($filenya);
+
+              //store file baru
+              $destinasi = public_path('storage/publikasi/');
+              $proses = $request->file('tes')->move($destinasi,$namafile);
+
+              //masukin db
+              $publikasi->judul = strip_tags(Input::get('judul'));
+              $publikasi->konten = Input::get('desc');
+              $publikasi->lokasi = $lokasifileskr;
+              $publikasi->author = Auth::user()->id;
+              $publikasi->save();
+              return redirect('aturpublikasi')->with('status', 'File Berhasil Di Upload!');
             }
             else {
               return Redirect::back()->withErrors(['file tidak sesuai, tidak bisa diupload']);
             }
+
           }
           else {
-            $materi = materi::find($id);
-            $materi->nama_materi = strip_tags(Input::get('namafile'));
-            $materi->save();
-            return redirect('atur-materi')->with('status', 'Nama materi berhasil di rename');
+            $publikasi = publikasi::find($id);
+            $publikasi->judul = strip_tags(Input::get('judul'));
+            $publikasi->save();
+            return redirect('aturpublikasi')->with('status', 'Nama publikasi berhasil di ganti');
           }
+
         }
 
-        public function destroyMateri($id)
+        public function destroyPublikasi($id)
         {
-          $materi = materi::find($id);
-          $file = str_replace("storage","public",$materi->lokasi_materi);
-          Storage::delete($file);
-          $materi->delete();
-          return redirect('atur-materi');
+          $publikasi = publikasi::find($id);
+          // $file = str_replace("storage","public",$materi->lokasi_materi);
+          $file = $publikasi->lokasi;
+          if ($file == "") {
+            $publikasi->delete();
+            return redirect('aturpublikasi');
+          }
+          $filenya = str_replace("/storage","",$file);
+          //$file = str_replace("storage","public",$materi->lokasi_materi);
+          Storage::delete($filenya);
+          $publikasi->delete();
+          return redirect('aturpublikasi');
         }
 
 

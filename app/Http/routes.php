@@ -46,7 +46,7 @@ Route::get('berita/{id}/delete', 'adminController@deleteBerita');
 Route::delete('berita/{id}', 'adminController@destroyBerita');
 Route::get('berita/{slug}','adminController@getBeritaSingle');
 
-Route::get('atur-publikasi','adminController@getAturPublikasi');
+Route::get('aturpublikasi','adminController@getAturPublikasi');
 Route::get('publikasi/json', 'adminController@dataPublikasiDT')->name('Publikasi/json');
 
 Route::get('publikasi/baru','adminController@getPublikasiBaru');

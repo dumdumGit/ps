@@ -87,13 +87,13 @@
             {{ session('status') }}
             </div>
           @endif
-          <form method="post" action="/publikasi/baru" enctype="multipart/form-data">
+          <form method="post" action="/publikasi/{{$publikasi->id}}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <input type="hidden" name="author" value="{{Auth::user()->id}}">
-            <input class="form-control" style="width:100%" type="text" name="judul" placeholder="Judul Publikasi">
+            <input value="{{$publikasi->judul}}" class="form-control" style="width:100%" type="text" name="judul" placeholder="Judul Publikasi">
             <br>
                 <textarea placeholder="Deskripsi atau konten atau link publikasi" name="desc" id="editor1" name="editor1" rows="10" cols="80">
-
+                  {{$publikasi->konten}}
                 </textarea>
                 <br>
                 <label for="exampleInputFile">Input File Publikasi</label>
@@ -104,6 +104,7 @@
                 <p class="help-block">File yg diterima : pdf, doc, gambar</p>
                 <br>
                 <input class="pull-right btn btn-lg btn-info" type="submit" name="submit" value="Post">
+                <input type="hidden" name="_method" value="PUT">
           </form>
         </div>
       </div>
