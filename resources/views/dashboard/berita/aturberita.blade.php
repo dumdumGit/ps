@@ -8,14 +8,14 @@
   <li><a href="/dashboard"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
   <li><a href="/pengguna"><i class="fa fa-users"></i> <span>Mengatur Pengguna</span></a></li>
   <li class="treeview active">
-    <a href="#"><i class="fa fa-newspaper-o"></i> <span>Mengatur Berita</span>
+    <a href="#"><i class="fa fa-newspaper-o"></i> <span>Mengatur Berita & Kegiatan</span>
       <span class="pull-right-container">
           <i class="fa fa-angle-left pull-right"></i>
         </span>
     </a>
     <ul class="treeview-menu">
-      <li><a href="/aturberita"><i class="fa fa-edit"></i> Edit/Hapus berita</a></li>
-      <li><a href="/berita/baru"><i class="fa fa-plus"></i> Tambah Berita</a></li>
+      <li><a href="/aturberita"><i class="fa fa-edit"></i> Edit/Hapus</a></li>
+      <li><a href="/berita/baru"><i class="fa fa-plus"></i> Tambah</a></li>
     </ul>
   </li>
 
@@ -32,14 +32,14 @@
   </li>
 
   <li class="treeview">
-    <a href="#"><i class="fa fa-bullseye"></i> <span>Mengatur Kegiatan</span>
+    <a href="#"><i class="fa fa-bullseye"></i> <span>Mengatur File</span>
       <span class="pull-right-container">
           <i class="fa fa-angle-left pull-right"></i>
         </span>
     </a>
     <ul class="treeview-menu">
-      <li><a href="/aturkegiatan"><i class="fa fa-edit"></i>Edit/Hapus Kegiatan</a></li>
-      <li><a href="/kegiatan/baru"><i class="fa fa-plus"></i>Tambah Kegiatan</a></li>
+      <li><a href="/aturfile"><i class="fa fa-edit"></i>Edit/Hapus File</a></li>
+      <li><a href="/file/baru"><i class="fa fa-plus"></i>Tambah File</a></li>
     </ul>
   </li>
 
@@ -103,7 +103,7 @@
         ajax: '{{ url('berita/ajax') }}',
         columns: [
           {data: 'judul', name: 'judul'},
-          {data: 'author', name: 'author'},
+          {data: 'namaAuthor', name: 'namaAuthor'},
           {data: 'updated_at', name: 'updated_at'},
           {data: 'action', name: 'action', orderable: false, searchable: false}
         ]

@@ -11,6 +11,7 @@ use App\pengguna;
 use App\User;
 use App\berita;
 use App\publikasi;
+use App\files;
 use Datatables;
 use Illuminate\Support\Facades\Hash;
 use Auth;
@@ -103,6 +104,10 @@ class adminController extends Controller
               .'<a style="margin-left:5px" href="/berita/'.$berita->id.'/edit" class="btn btn-xs btn-info"><i class="glyphicon glyphicon-edit"></i> Ubah</a>'
               .'<a style="margin-left:5px" href="/berita/'.$berita->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
           })
+          ->addColumn('namaAuthor', function($berita) {
+            $namanya = DB::table('users')->where('id','=',$berita->author)->first()->name;
+            return $namanya;
+          })
           ->make(true);
 
     }
@@ -128,9 +133,8 @@ class adminController extends Controller
       $iduser = Auth::user()->id;
       $berita = new berita();
       $berita->sluglink = $url;
-      $berita->author = Input::get('nama');
       $berita->judul = strip_tags(ucwords(Input::get('judul')));
-      $berita->author = $iduser.",".Input::get('author');
+      $berita->author = Auth::user()->id;
       $berita->content = Input::get('isinya');
       $berita->excerpt = substr(strip_tags(Input::get('isinya')), 0, 400);
 
@@ -144,13 +148,14 @@ class adminController extends Controller
         $berita = berita::find($id);
         if(!$berita)
         abort(404);
-        $user = Auth::user();
-        $idandnanme = explode(",",$berita->author);
-        if ($user->id == $idandnanme[0] && $user->name == $idandnanme[1]) {
-          return view('dashboard.berita.editberita', ['berita'=>$berita]);
-        } else {
-          echo "anda bukan penulis artikel tsb, jadi tidak bisa mengedit nya!";
-        }
+        return view('dashboard.berita.editberita', ['berita'=>$berita]);
+        // $user = Auth::user();
+        // $idandnanme = explode(",",$berita->author);
+        // if ($user->id == $idandnanme[0] && $user->name == $idandnanme[1]) {
+        //
+        // } else {
+        //   echo "anda bukan penulis artikel tsb, jadi tidak bisa mengedit nya!";
+        // }
       }
 
     //ini buat setelah di klik post/put buat update data nya
@@ -166,7 +171,7 @@ class adminController extends Controller
         $berita->sluglink = $url;
         $berita->author = Input::get('nama');
         $berita->judul = ucwords(Input::get('judul'));
-        $berita->author = Input::get('author');
+        $berita->author = Auth::user()->id;
         $berita->content = Input::get('isinya');
         $berita->excerpt = substr(strip_tags(Input::get('isinya')), 0, 400);
 
@@ -359,6 +364,75 @@ class adminController extends Controller
           $publikasi->delete();
           return redirect('aturpublikasi');
         }
+
+
+        public function getFileBaru() {
+          return view('dashboard.files.filebaru');
+        }
+
+        public function StoreFileBaru(Request $request) {
+          if ($request->hasFile('tes')) {
+            $namafile = $request->file('tes')->getClientOriginalName();
+            $ext = $request->file('tes')->getClientOriginalExtension();
+            $lokasifileskr = '/storage/files/'.$namafile;
+
+            if(Storage::has("files/".$namafile)) {
+              return Redirect::back()->withErrors(['File sudah ada, coba rename file!']);
+            }
+
+            //yg paling penting cek extension, no php allowed
+            if ($ext == "pdf" || $ext == "png" || $ext == "jpg" || $ext == "docx" || $ext == "doc") {
+              //store
+              $destinasi = public_path('storage/files/');
+              $proses = $request->file('tes')->move($destinasi,$namafile);
+              //masukin db
+              $files = new files();
+              $files->author = Auth::user()->id;
+              $files->namafile = $namafile;
+              $files->lokasi = $lokasifileskr;
+              $files->save();
+              return redirect('aturfile')->with('status', 'File Berhasil Di Upload!');
+            } else {
+              return Redirect::back()->withErrors(['format file salah, tidak bisa diupload']);
+            }
+          } else {
+            return Redirect::back()->withErrors(['File tidak terbaca, tidak bisa diupload']);
+          }
+        }
+
+        public function getAturFile() {
+          return view("dashboard.files.atur-file");
+        }
+
+        public function dataFileDT() {
+          return Datatables::of(files::query())
+          ->addColumn('namaAuthor', function($files) {
+            $namanya = DB::table('users')->where('id','=',$files->author)->first()->name;
+            return $namanya;
+          })
+            ->addColumn('action', function ($files) {
+                return
+                 '<a style="margin-left:5px" href="'.$files->lokasi.'" target="_blank" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
+                .'<a style="margin-left:5px" href="/file/'.$files->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
+            })
+            ->make(true);
+        }
+
+        public function DestroyFilebaru($id){
+          $files = files::find($id);
+          if (!$files) {
+           abort(404);
+          }
+
+          $file = $files->lokasi;
+          $filenya = str_replace("/storage","",$file);
+          //$file = str_replace("storage","public",$materi->lokasi_materi);
+          Storage::delete($filenya);
+          $files->delete();
+          return redirect('aturfile');
+        }
+
+
 
 
 

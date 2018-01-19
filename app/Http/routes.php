@@ -48,7 +48,6 @@ Route::get('berita/{slug}','adminController@getBeritaSingle');
 
 Route::get('aturpublikasi','adminController@getAturPublikasi');
 Route::get('publikasi/json', 'adminController@dataPublikasiDT')->name('Publikasi/json');
-
 Route::get('publikasi/baru','adminController@getPublikasiBaru');
 Route::post('publikasi/baru', 'adminController@storepublikasiBaru');
 Route::get('publikasi/{id}/rename','adminController@getRenamePublikasi');
@@ -57,6 +56,15 @@ Route::get('publikasi/{id}/edit','adminController@getEditPublikasi');
 Route::get('publikasi/{id}/delete ','adminController@destroyPublikasi');
 
 
+Route::get('aturfile','adminController@getAturFile');
+Route::get('file/ajax', 'adminController@dataFileDT')->name('file/ajax');
+
+Route::get('file/baru','adminController@getFileBaru');
+Route::post('file/baru', 'adminController@StoreFileBaru');
+
+Route::get('file/{id}/delete', 'adminController@DestroyFilebaru');
+
+Route::get('kegiatan/{slug}','adminController@getKegiatanSingle');
 //<start bagian auth only... another rule maybe...
 
 //end>

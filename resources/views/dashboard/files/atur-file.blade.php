@@ -1,13 +1,14 @@
 @extends('dashboard.layouts.master')
 
 @section('title')
-  Pusat Studi Desain Otomotif | Berita
+  Pusat Studi Desain Otomotif | File
 @endsection
+
 
 @section('list')
   <li><a href="/dashboard"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
   <li><a href="/pengguna"><i class="fa fa-users"></i> <span>Mengatur Pengguna</span></a></li>
-  <li class="treeview active">
+  <li class="treeview">
     <a href="#"><i class="fa fa-newspaper-o"></i> <span>Mengatur Berita & Kegiatan</span>
       <span class="pull-right-container">
           <i class="fa fa-angle-left pull-right"></i>
@@ -31,14 +32,14 @@
     </ul>
   </li>
 
-  <li class="treeview">
+  <li class="treeview active">
     <a href="#"><i class="fa fa-bullseye"></i> <span>Mengatur File</span>
       <span class="pull-right-container">
           <i class="fa fa-angle-left pull-right"></i>
         </span>
     </a>
     <ul class="treeview-menu">
-      <li><a href="/aturfile"><i class="fa fa-edit"></i>Edit/Hapus File</a></li>
+      <li class="active"><a href="/aturfile"><i class="fa fa-edit"></i>Edit/Hapus File</a></li>
       <li><a href="/file/baru"><i class="fa fa-plus"></i>Tambah File</a></li>
     </ul>
   </li>
@@ -57,42 +58,59 @@
 @endsection
 
 @section('konten')
+  <section class="content-header">
+    <h1>
+      Menambah Files<br>
+      <small>Disini anda dapat Menambah Files, dapat berupa gambar dan dokumen</small>
+    </h1>
+</section>
 
-
-  <!-- Main content -->
+<!-- Main content -->
 <section class="content">
   <div class="row">
-    <div class="col-md-12">
-      <div class="box box-info">
-        <div class="box-header">
-          <section class="content-header">
-            <h1>
-              Mengedit Berita Dan Kegiatan<br>
-              <small>Disini anda dapat mengubah Postingan Berita Dan Kegiatan</small>
-            </h1>
-          </section>
-        </div>
+    <div class="col-xs-12">
+      <div class="box">
         <!-- /.box-header -->
-        <div class="box-body pad">
-          <form method="post" action="/berita/{{$berita->id}}">
-            {{ csrf_field() }}
-            <input type="hidden" name="author" value="{{Auth::user()->name}}">
-            <input value="{{$berita->judul}}" class="form-control" style="width:100%" type="text" name="judul" placeholder="Judul">
-            <br>
-                <textarea name="isinya" id="editor1" name="editor1" rows="10" cols="80">
-                  {{$berita->content}}
-                </textarea>
-                <br>
-                <input class="pull-right btn btn-lg btn-info" type="submit" name="submit" value="Post">
-                <input type="hidden" name="_method" value="PUT">
-          </form>
+        <div class="box-body">
+
+          <table id="contoh" class="table table-bordered table-hover datatable">
+            <thead>
+            <tr>
+              <th>Nama File</th>
+              <th>ID Author</th>
+              <th>Lokasi</th>
+              <th>Terakhir Di Update</th>
+              <th colspan="10%">Action</th>
+            </tr>
+            </thead>
+          </table>
         </div>
+        <!-- /.box-body -->
       </div>
       <!-- /.box -->
       </div>
-      <!-- /.col-->
 </div>
-<!-- ./row -->
 </section>
-<!-- /.content -->
+
+
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#contoh').DataTable({
+    "language": {
+      "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Indonesian-Alternative.json"
+    },
+      processing: true,
+      serverSide: true,
+      ajax: '{{ url('file/ajax') }}',
+      columns: [
+        {data: 'namafile', name: 'namafile'},
+        {data: 'author', name: 'author'},
+        {data: 'lokasi', name: 'lokasi'},
+        {data: 'updated_at', name: 'updated_at'},
+        {data: 'action', name: 'action', orderable: false, searchable: false}
+      ]
+  });
+});
+</script>
 @endsection
