@@ -99,7 +99,7 @@
 								<?php
 									$rolesnya = DB::table('roles')->where('id','=',$user->roles_id)->first()->namaRule;
 								 ?>
-								 @if ($rolesnya == "Super Admin")
+								 @if ($rolesnya == "Super_Admin")
 									 <p>Roles anda : {{$rolesnya}}</p>
 									 <br>
 									 <a class="btn btn-sm btn-orange" href="/dashboard">Dashboard</a>

@@ -13,9 +13,9 @@ class HakAksesMidleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next,$namaRule)
+    public function handle($request, Closure $next,$namaRule,$namaRule2)
     {
-        if (auth()->check() && !auth()->user()->punyaRule($namaRule)) {
+        if (auth()->check() && !auth()->user()->punyaRule($namaRule,$namaRule2)) {
           return redirect('/')->withErrors(['Anda tak punya akses untuk mengakses halaman!']);
         }
         return $next($request);

@@ -42,9 +42,9 @@ class User extends Model implements AuthenticatableContract,
       return $this->belongsTo (Role::class,'roles_id');
     }
 
-    public function punyaRule($namaRule)
+    public function punyaRule($namaRule, $namaRule2)
     {
-      if($this->role->namaRule == $namaRule) {
+      if($this->role->namaRule == $namaRule || $this->role->namaRule == $namaRule2) {
         return true;
       }
       return false;

@@ -25,7 +25,7 @@ class regisController extends Controller
 
   public function postRegis()
   {
-    $rolesnya = DB::table('roles')->select('id')->where('namaRule', '=', 'user')->first()->id;
+    $rolesnya = DB::table('roles')->select('id')->where('namaRule', '=', 'User')->first()->id;
     $user = new User();
     $user->email = Input::get('email');
     $user->name = Input::get('nama');

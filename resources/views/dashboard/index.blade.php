@@ -6,7 +6,9 @@
 
 @section('list')
   <li class="active"><a href="/dashboard"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
-  <li><a href="/pengguna"><i class="fa fa-users"></i> <span>Mengatur Pengguna</span></a></li>
+	@if (Auth::user()->roles_id == "3")
+		<li><a href="/pengguna"><i class="fa fa-users"></i> <span>Mengatur Pengguna</span></a></li>
+	@endif
   <li class="treeview">
     <a href="#"><i class="fa fa-newspaper-o"></i> <span>Mengatur Berita & Kegiatan</span>
       <span class="pull-right-container">

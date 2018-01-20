@@ -28,74 +28,12 @@ class adminController extends Controller
   public function __construct()
   {
       $this->middleware('auth');
-      $this->middleware('rule:Admin');
+      $this->middleware('rule:Super_Admin,Admin');
   }
 
   public function getDashboard() {
     return view("dashboard.index");
   }
-
-  public function getPengguna() {
-    $usernya = DB::table('users')->get();
-    return view('dashboard.pengguna.pengguna', ['usernya'=>$usernya]);
-  }
-
-  public function posregisnya()
-  {
-    $user = DB::table('users')->get();
-    foreach ($user as $usernya) {
-      if (Input::get('email') == $usernya->email) {
-        return redirect('/pengguna')->withErrors(['Email sudah digunakan']);
-      }
-    }
-    $rolesnya = DB::table('roles')->select('id')->where('namaRule', '=', 'user')->first()->id;
-    $user = new User();
-    $user->email = strip_tags(Input::get('email'));
-    $user->name = strip_tags(Input::get('nama'));
-    $user->password = bcrypt(Input::get('password'));
-    $user->roles_id = $rolesnya;
-
-    $user->save();
-    return redirect('/pengguna');
-  }
-
-  //ini buat view dimana kita bakalan nge set value ke form
-    public function edit($id)
-    {
-      $user = user::find($id);
-      if(!$user)
-      abort(404);
-
-      return view('dashboard.pengguna.edit-pengguna', ['user'=>$user]);
-    }
-
-  //ini buat setelah di klik post/put buat update data nya
-    public function update(Request $request, $id)
-    {
-      $user = user::find($id);
-      $user->name = strip_tags($request->nama);
-      $user->email = strip_tags($request->email);
-      $user->roles_id = $request->roles;
-      $user->save();
-      return redirect('pengguna');
-    }
-
-  //konsep sama....
-    public function delete($id)
-    {
-      $user = user::find($id);
-      if(!$user)
-      abort(404);
-
-      return view('dashboard.pengguna.delete-pengguna', ['user'=>$user]);
-    }
-
-    public function destroy($id)
-    {
-      $user = user::find($id);
-      $user->delete();
-      return redirect('pengguna');
-    }
 
     public function dataBeritaDT()
     {
@@ -256,11 +194,8 @@ class adminController extends Controller
 
         public function dataPublikasiDT()
         {
-          $aktifuser = Auth::user()->id;
-          $publikasiByAuthor = publikasi::where('author','=',$aktifuser)->get();
-
-            //return Datatables::of(publikasi::query())
-            return Datatables::of($publikasiByAuthor)
+          if (Auth::user()->roles_id == "3") {
+            return Datatables::of(publikasi::query())
                 ->addColumn('action', function ($publikasi) {
                     return
                      '<a style="margin-left:5px" href="'.$publikasi->lokasi.'" target="_blank" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
@@ -272,6 +207,24 @@ class adminController extends Controller
                   return $namanya;
                 })
                 ->make(true);
+          } else {
+            $aktifuser = Auth::user()->id;
+            $publikasiByAuthor = publikasi::where('author','=',$aktifuser)->get();
+
+              //return Datatables::of(publikasi::query())
+              return Datatables::of($publikasiByAuthor)
+                  ->addColumn('action', function ($publikasi) {
+                      return
+                       '<a style="margin-left:5px" href="'.$publikasi->lokasi.'" target="_blank" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
+                      .'<a style="margin-left:5px" href="/publikasi/'.$publikasi->id.'/edit" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-edit"></i> Edit</a>'
+                      .'<a style="margin-left:5px" href="/publikasi/'.$publikasi->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
+                  })
+                  ->addColumn('namaAuthor', function($publikasi) {
+                    $namanya = DB::table('users')->where('id','=',$publikasi->author)->first()->name;
+                    return $namanya;
+                  })
+                  ->make(true);
+          }
         }
 
         public function getEditPublikasi($id)
@@ -279,15 +232,16 @@ class adminController extends Controller
           $publikasi = publikasi::find($id);
           if(!$publikasi)
           abort(404);
-          return view('dashboard.publikasi.edit-publikasi', ['publikasi' => $publikasi]);
-        }
 
-        public function getRenamePublikasi($id)
-        {
-          $materi = materi::find($id);
-          if(!$materi)
-          abort(404);
-          return view('dashboard.materi.rename-materi', ['materi' => $materi]);
+          $user = Auth::user();
+          if ($user->id == $publikasi->author) {
+            return view('dashboard.publikasi.edit-publikasi', ['publikasi' => $publikasi]);
+          } elseif (Auth::user()->roles_id == "3") {
+            return view('dashboard.publikasi.edit-publikasi', ['publikasi' => $publikasi]);
+          }
+          else {
+            echo "anda bukan penulis artikel tsb, jadi tidak bisa mengedit nya!";
+          }
         }
 
         public function update_Publikasi(Request $request, $id)
@@ -462,6 +416,7 @@ class adminController extends Controller
 
         public function dataRisetDT()
         {
+          if (Auth::user()->roles_id == "3") {
             return Datatables::of(riset::query())
               ->addColumn('action', function ($riset) {
                   return
@@ -470,13 +425,35 @@ class adminController extends Controller
                   .'<a style="margin-left:5px" href="/riset/'.$riset->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
               })
               ->make(true);
+          } else {
+            $aktifuser = Auth::user()->id;
+            $risetByAuthor = riset::where('author','=',$aktifuser)->get();
+
+              //return Datatables::of(publikasi::query())
+              return Datatables::of($risetByAuthor)
+                  ->addColumn('action', function ($riset) {
+                      return
+                       '<a style="margin-left:5px" href="'.$riset->sluglink.'" target="_blank" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
+                      .'<a style="margin-left:5px" href="/riset/'.$riset->id.'/edit" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-edit"></i> Edit</a>'
+                      .'<a style="margin-left:5px" href="/riset/'.$riset->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
+                  })
+                  ->make(true);
+          }
         }
 
         public function editRiset($id) {
           $riset = riset::find($id);
           if(!$riset)
           abort(404);
-          return view('dashboard.riset.editriset', ['riset' => $riset]);
+          $user = Auth::user();
+          if ($user->id == $riset->author) {
+            return view('dashboard.riset.editriset', ['riset' => $riset]);
+          } elseif (Auth::user()->roles_id == "3") {
+            return view('dashboard.riset.editriset', ['riset' => $riset]);
+          }
+          else {
+            echo "anda bukan pembuat riset tsb, jadi tidak bisa mengedit nya!";
+          }
         }
 
         public function risetUpdate(Request $request, $id) {
@@ -511,29 +488,6 @@ class adminController extends Controller
           $riset->delete();
           return redirect('aturriset');
         }
-
-        public function getAturUtama() {
-          $pengaturan = DB::table('pengaturan')->where('id','=','1')->first();
-          return view("dashboard.atursitus.utama", ['pengaturan'=>$pengaturan]);
-        }
-
-        public function updateUtama(Request $request) {
-          $pengaturan = pengaturan::find('1');
-          $pengaturan->header = strip_tags(Input::get('header'));
-          $pengaturan->tentang = Input::get('tentang');
-          $pengaturan->visi = Input::get('visi');
-          $pengaturan->misi = Input::get('misi');
-          $pengaturan->telpon = Input::get('telpon');
-          $pengaturan->alamat = Input::get('alamat');
-          $pengaturan->email = Input::get('email');
-          $pengaturan->footer3 = Input::get('footer3');
-          $pengaturan->footer32 = Input::get('footer32');
-          $pengaturan->save();
-          return redirect('aturheader')->with('status', 'Pengaturan Disimpan');;
-        }
-
-
-
 
 
 

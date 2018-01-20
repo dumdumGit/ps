@@ -22,13 +22,10 @@ class SuperAdminController extends Controller
   public function __construct()
   {
       $this->middleware('auth');
-      $this->middleware('rule:Super Admin');
+      $this->middleware('rule:Super_Admin,nothingelse');
   }
 
-  public function getDashboard() {
-    return view("dashboard.index");
-  }
-
+  //pengguna
   public function getPengguna() {
     $usernya = DB::table('users')->get();
     return view('dashboard.pengguna.pengguna', ['usernya'=>$usernya]);
@@ -42,7 +39,7 @@ class SuperAdminController extends Controller
         return redirect('/pengguna')->withErrors(['Email sudah digunakan']);
       }
     }
-    $rolesnya = DB::table('roles')->select('id')->where('namaRule', '=', 'user')->first()->id;
+    $rolesnya = DB::table('roles')->select('id')->where('namaRule', '=', 'User')->first()->id;
     $user = new User();
     $user->email = strip_tags(Input::get('email'));
     $user->name = strip_tags(Input::get('nama'));
@@ -51,6 +48,23 @@ class SuperAdminController extends Controller
 
     $user->save();
     return redirect('/pengguna');
+  }
+
+  public function dataPengguna() {
+    $users = User::select(['id', 'name', 'email', 'password', 'roles_id'])->get();
+
+    return Datatables::of($users)
+        ->addColumn('roles', function($user) {
+          $rolesnya = DB::table('roles')->where('id','=',$user->roles_id)->first()->namaRule;
+          return $rolesnya;
+        })
+        ->addColumn('action', function ($user) {
+            return
+            '<a style="margin-left:5px" href="/pengguna/'.$user->id.'/edit" class="btn btn-xs btn-info"><i class="glyphicon glyphicon-edit"></i> Ubah</a>'.
+            '<a style="margin-left:5px" href="/pengguna/'.$user->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
+        })
+        ->removeColumn('password')
+        ->make(true);
   }
 
   //ini buat view dimana kita bakalan nge set value ke form
@@ -91,95 +105,37 @@ class SuperAdminController extends Controller
       return redirect('pengguna');
     }
 
-    public function dataBeritaDT()
-    {
-        return Datatables::of(berita::query())
-          ->addColumn('action', function ($berita) {
-              return
-               '<a style="margin-left:5px" href="/berita/'.$berita->sluglink.'" target="_blank" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
-              .'<a style="margin-left:5px" href="/berita/'.$berita->id.'/edit" class="btn btn-xs btn-info"><i class="glyphicon glyphicon-edit"></i> Ubah</a>'
-              .'<a style="margin-left:5px" href="/berita/'.$berita->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
-          })
-          ->make(true);
-
+    public function getAturUtama() {
+      $pengaturan = DB::table('pengaturan')->where('id','=','1')->first();
+      return view("dashboard.atursitus.utama", ['pengaturan'=>$pengaturan]);
     }
 
-    public function getAturBerita()
-    {
-      $berita = DB::table('berita')->get();
-      return view('dashboard.berita.aturberita',['berita'=>$berita]);
+    public function updateUtama(Request $request) {
+      $pengaturan = pengaturan::find('1');
+      $pengaturan->header = strip_tags(Input::get('header'));
+      $pengaturan->tentang = Input::get('tentang');
+      $pengaturan->visi = Input::get('visi');
+      $pengaturan->misi = Input::get('misi');
+      $pengaturan->telpon = Input::get('telpon');
+      $pengaturan->alamat = Input::get('alamat');
+      $pengaturan->email = Input::get('email');
+      $pengaturan->footer3 = Input::get('footer3');
+      $pengaturan->footer32 = Input::get('footer32');
+      $pengaturan->save();
+      return redirect('aturheader')->with('status', 'Pengaturan Disimpan');;
     }
 
-    public function getBeritaBaru()
-    {
-      return view('dashboard.berita.beritabaru');
+    public function getAturLamanProfil() {
+      $pengaturan = DB::table('pengaturan')->where('id','=','1')->first();
+      return view("dashboard.atursitus.profil", ['pengaturan'=>$pengaturan]);
     }
 
-    public function postBeritaBaru(Request $request)
-    {
-      $judul = strtolower(Input::get('judul'));
-      if(strlen($judul) > 30) {
-        $judul = substr($judul, 0, 30);
-      }
-      $url = urlencode(strtolower($judul));
-      $iduser = Auth::user()->id;
-      $berita = new berita();
-      $berita->sluglink = $url;
-      $berita->author = Input::get('nama');
-      $berita->judul = strip_tags(ucwords(Input::get('judul')));
-      $berita->author = $iduser.",".Input::get('author');
-      $berita->content = Input::get('isinya');
-      $berita->excerpt = substr(strip_tags(Input::get('isinya')), 0, 400);
+    public function updateLamanProfil(Request $request) {
+      $pengaturan = pengaturan::find("1");
+      $pengaturan->profil = Input::get('profil');
 
-      $berita->save();
-      return redirect('aturberita');
+      $pengaturan->save();
+      return redirect('aturprofil')->with('status', 'Pengaturan berhasil disimpan!');
     }
-
-    //ini buat view dimana kita bakalan nge set value ke form
-      public function editBerita($id)
-      {
-        $berita = berita::find($id);
-        if(!$berita)
-        abort(404);
-        return view('dashboard.berita.editberita', ['berita'=>$berita]);
-      }
-
-    //ini buat setelah di klik post/put buat update data nya
-      public function updateBerita(Request $request, $id)
-      {
-        $judul = strtolower(Input::get('judul'));
-        if(strlen($judul) > 30) {
-          $judul = substr($judul, 0, 30);
-        }
-        $url = urlencode(strtolower($judul));
-
-        $berita = berita::find($id);
-        $berita->sluglink = $url;
-        $berita->author = Input::get('nama');
-        $berita->judul = ucwords(Input::get('judul'));
-        $berita->author = Input::get('author');
-        $berita->content = Input::get('isinya');
-        $berita->excerpt = substr(strip_tags(Input::get('isinya')), 0, 400);
-
-        $berita->save();
-        return redirect('aturberita');
-      }
-
-      //konsep sama....
-        public function deleteBerita($id)
-        {
-          $berita = berita::find($id);
-          if(!$berita)
-          abort(404);
-
-          return view('dashboard.berita.deleteberita', ['berita'=>$berita]);
-        }
-
-        public function destroyBerita($id)
-        {
-          $berita = berita::find($id);
-          $berita->delete();
-          return redirect('aturberita');
-        }
 
 }

@@ -2,9 +2,7 @@
 
 Route::get('/', 'getController@getIndex');
 
-Route::get('profil', function () {
-    return view('profil');
-});
+Route::get('profil', 'getController@getProfil');
 
 Route::get('berita', function () {
     return view('berita');
@@ -16,19 +14,18 @@ Route::post('register', 'regisController@postRegis');
 Route::post('/','loginController@postLogin');
 //end>
 
-
-//adminController bagian Rule admin
+//controller admin
 Route::get('logout','backendController@logout');
 Route::get('dashboard','adminController@getDashboard');
 
-//pengguna
-Route::get('pengguna','adminController@getPengguna');
-Route::get('pengguna/ajax', 'getController@dataPengguna')->name('pengguna/ajax');
-Route::post('pengguna', 'adminController@posregisnya');
-Route::get('pengguna/{id}/edit', 'adminController@edit');
-Route::get('pengguna/{id}/delete', 'adminController@delete');
-Route::put('pengguna/{id}', 'adminController@update');
-Route::delete('pengguna/{id}', 'adminController@destroy');
+//pengguna khusus Super_Admin
+Route::get('pengguna','SuperAdminController@getPengguna');
+Route::get('pengguna/ajax', 'SuperAdminController@dataPengguna')->name('pengguna/ajax');
+Route::post('pengguna', 'SuperAdminController@posregisnya');
+Route::get('pengguna/{id}/edit', 'SuperAdminController@edit');
+Route::get('pengguna/{id}/delete', 'SuperAdminController@delete');
+Route::put('pengguna/{id}', 'SuperAdminController@update');
+Route::delete('pengguna/{id}', 'SuperAdminController@destroy');
 
 //aturberita
 Route::get('aturberita','adminController@getAturBerita');
@@ -69,8 +66,12 @@ Route::get('riset/{id}/delete', 'adminController@deleteRiset');
 Route::delete('riset/{id}', 'adminController@destroyRiset');
 Route::get('riset/{slug}','adminController@getRisetSingle');
 
-Route::get('aturheader','adminController@getAturUtama');
-Route::put('aturheader/update','adminController@updateUtama');
+//atursitus
+Route::get('aturheader','SuperAdminController@getAturUtama');
+Route::put('aturheader/update','SuperAdminController@updateUtama');
+Route::get('aturprofil', 'SuperAdminController@getAturLamanProfil');
+Route::put('aturprofil/update', 'SuperAdminController@updateLamanProfil');
+
 
 //Route::get('kegiatan/{slug}','adminController@getKegiatanSingle');
 //<start bagian auth only... another rule maybe...

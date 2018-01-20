@@ -18,12 +18,5 @@
 @endsection
 
 @section('konten')
-  <div class="container">
-    <div class="row">
-      <h1 class="page-header">
-        Profil
-      </h1>
-      <p>Untuk Mengganti halaman ini, bisa di backend, atau edit file -> resources -> views -> profil.blade.php</p>
-    </div>
-  </div>
+  {!! $pengaturan->profil !!}
 @endsection
