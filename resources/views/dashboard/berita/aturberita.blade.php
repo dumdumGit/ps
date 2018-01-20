@@ -54,6 +54,18 @@
       <li><a href="/riset/baru"><i class="fa fa-plus"></i>Tambah Riset</a></li>
     </ul>
   </li>
+
+  <li class="treeview">
+    <a href="#"><i class="fa fa-desktop"></i> <span>Mengatur Situs</span>
+      <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+      <li><a href="/aturheader"><i class="fa fa-edit"></i>Halaman Utama</a></li>
+      <li><a href="/aturprofil"><i class="fa fa-edit"></i>Halaman Profil</a></li>
+    </ul>
+  </li>
 @endsection
 
 @section('konten')
@@ -103,7 +115,7 @@
         ajax: '{{ url('berita/ajax') }}',
         columns: [
           {data: 'judul', name: 'judul'},
-          {data: 'namaAuthor', name: 'namaAuthor'},
+          {data: 'namaAuthor', name: 'namaAuthor', orderable: false, searchable: false},
           {data: 'updated_at', name: 'updated_at'},
           {data: 'action', name: 'action', orderable: false, searchable: false}
         ]

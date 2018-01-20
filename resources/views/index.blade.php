@@ -36,7 +36,7 @@
 	header-img start
 	============================== -->
     <section id="hero-area">
-      <img class="img-responsive" src="{{ asset('images/banner.jpg') }}" alt="">
+      <img class="img-responsive" src="{{$pengaturan->header}}" alt="">
     </section>
 	<!--
     Header start
@@ -148,7 +148,7 @@
 				<div class="row mt-50">
 					<div class="col-xs-12">
 						<p style="font-size:20px;">
-							Center for Automotive Research (CAR) adalah sebuah pusat riset otomotif di Universitas Gunadarma difokuskan pada studi mutakhir untuk meningkatkan inovasi dan daya saing otomotif didasarkan pada kondisi infrastruktur lokal.
+							{{$pengaturan->tentang}}
 						</p>
 					</div>
 				</div> <!-- end row -->
@@ -169,13 +169,15 @@
 				<div class="col-sm-6">
 					<blockquote class="blockquote-style-1 mb-30">
 							<b>Visi : </b>
-							<br>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							<br>
+							{{$pengaturan->visi}}
 					</blockquote>
 				</div>
 				<div class="col-sm-6">
 					<blockquote class="blockquote-style-2">
 						<b>Misi : </b>
-						<br> Misi kami adalah untuk mengelaborasi simulasi metodologi yang baru menggunakan teknologi mutakhir pada sistem prototyping. Sistem itu sendiri terdiri dari hierarki model dengan berbagai parameter yang dapat disesuaikan untuk memenuhi berbagai tujuan simulasi dan secara signifikan dapat berdampak pada proses pengembangan produk pada industri manufaktur otomotif.
+						<br>
+						{{$pengaturan->misi}}
 					</blockquote>
 				</div>
 			</div>
@@ -271,17 +273,16 @@
                             <ul>
                                 <li>
                                   <h4><i class="fa fa-phone"></i>Telpon</h4>
-                                  <p>0857701XXXX(SMS only)</p>
+                                  <p>{{$pengaturan->telpon}}</p>
 
                                 </li>
                                 <li>
                                   <h4><i class="fa fa-map-marker"></i>Alamat</h4>
-                                  <p>Jalan Margonda Raya No 100.</p>
+                                  <p>{{$pengaturan->alamat}}</p>
                                 </li>
                                 <li>
                                   <h4><i class="fa fa-envelope"></i>E-mail</h4>
-                                  <p>admin@ps-otomotif.gunadarma.ac.id</p>
-
+                                  <p>{{$pengaturan->email}}</p>
                                 </li>
                             </ul>
                         </div>

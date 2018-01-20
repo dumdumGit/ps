@@ -12,6 +12,13 @@ Use DB;
 
 class getController extends Controller
 {
+
+  public function getIndex() {
+    $pengaturan = DB::table('pengaturan')->where('id','=','1')->first();
+    return view("index", ['pengaturan'=>$pengaturan]);
+  }
+
+
   public function dataPengguna() {
     $users = User::select(['id', 'name', 'email', 'password', 'roles_id'])->get();
 

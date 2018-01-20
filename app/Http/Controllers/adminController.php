@@ -12,6 +12,8 @@ use App\User;
 use App\berita;
 use App\publikasi;
 use App\files;
+use App\riset;
+use App\pengaturan;
 use Datatables;
 use Illuminate\Support\Facades\Hash;
 use Auth;
@@ -109,7 +111,6 @@ class adminController extends Controller
             return $namanya;
           })
           ->make(true);
-
     }
 
     public function getAturBerita()
@@ -430,6 +431,105 @@ class adminController extends Controller
           Storage::delete($filenya);
           $files->delete();
           return redirect('aturfile');
+        }
+
+        public function getAturRiset() {
+          return view("dashboard.riset.atur-riset");
+        }
+
+        public function getTambahRiset() {
+          return view("dashboard.riset.risetbaru");
+        }
+
+        public function PostRisetBaru(Request $request)
+        {
+          $judul = strtolower(Input::get('judul'));
+          if(strlen($judul) > 30) {
+            $judul = substr($judul, 0, 30);
+          }
+          $url = urlencode(strtolower($judul));
+          $iduser = Auth::user()->id;
+          $riset = new riset();
+          $riset->sluglink = $url;
+          $riset->judul = strip_tags(ucwords(Input::get('judul')));
+          $riset->author = Auth::user()->id;
+          $riset->konten = Input::get('isinya');
+          $riset->excerpt = substr(strip_tags(Input::get('isinya')), 0, 400);
+
+          $riset->save();
+          return redirect('aturriset');
+        }
+
+        public function dataRisetDT()
+        {
+            return Datatables::of(riset::query())
+              ->addColumn('action', function ($riset) {
+                  return
+                   '<a style="margin-left:5px" href="/riset/'.$riset->sluglink.'" target="_blank" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
+                  .'<a style="margin-left:5px" href="/riset/'.$riset->id.'/edit" class="btn btn-xs btn-info"><i class="glyphicon glyphicon-edit"></i> Ubah</a>'
+                  .'<a style="margin-left:5px" href="/riset/'.$riset->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
+              })
+              ->make(true);
+        }
+
+        public function editRiset($id) {
+          $riset = riset::find($id);
+          if(!$riset)
+          abort(404);
+          return view('dashboard.riset.editriset', ['riset' => $riset]);
+        }
+
+        public function risetUpdate(Request $request, $id) {
+          $judul = strtolower(Input::get('judul'));
+          if(strlen($judul) > 30) {
+            $judul = substr($judul, 0, 30);
+          }
+          $url = urlencode(strtolower($judul));
+
+          $riset = riset::find($id);
+          $riset->sluglink = $url;
+          $riset->judul = strip_tags(ucwords(Input::get('judul')));
+          $riset->author = Auth::user()->id;
+          $riset->konten = Input::get('isinya');
+          $riset->excerpt = substr(strip_tags(Input::get('isinya')), 0, 400);
+
+          $riset->save();
+          return redirect('aturriset');
+        }
+
+        public function deleteRiset ($id) {
+          $riset = riset::find($id);
+          if(!$riset)
+          abort(404);
+
+          return view('dashboard.riset.deleteriset', ['riset'=>$riset]);
+        }
+
+        public function destroyRiset($id)
+        {
+          $riset = riset::find($id);
+          $riset->delete();
+          return redirect('aturriset');
+        }
+
+        public function getAturUtama() {
+          $pengaturan = DB::table('pengaturan')->where('id','=','1')->first();
+          return view("dashboard.atursitus.utama", ['pengaturan'=>$pengaturan]);
+        }
+
+        public function updateUtama(Request $request) {
+          $pengaturan = pengaturan::find('1');
+          $pengaturan->header = strip_tags(Input::get('header'));
+          $pengaturan->tentang = Input::get('tentang');
+          $pengaturan->visi = Input::get('visi');
+          $pengaturan->misi = Input::get('misi');
+          $pengaturan->telpon = Input::get('telpon');
+          $pengaturan->alamat = Input::get('alamat');
+          $pengaturan->email = Input::get('email');
+          $pengaturan->footer3 = Input::get('footer3');
+          $pengaturan->footer32 = Input::get('footer32');
+          $pengaturan->save();
+          return redirect('aturheader')->with('status', 'Pengaturan Disimpan');;
         }
 
 
