@@ -2,6 +2,11 @@
 <?php
 //inisiasi var user untuk yg sedang authentikasi
   $user = Auth::user();
+  if(Auth::user()->roles_id == "3") {
+      $skin = "blue";
+  } else {
+    $skin = "red";
+  }
 ?>
 <html>
 <head>
@@ -45,7 +50,7 @@
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition skin-red sidebar-mini">
+<body class="hold-transition skin-{{$skin}} sidebar-mini">
 <div class="wrapper">
 
   <!-- Main Header -->

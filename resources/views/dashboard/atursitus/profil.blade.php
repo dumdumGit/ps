@@ -59,7 +59,7 @@
     </ul>
   </li>
 
-  @if (Auth::user()->id = "3")
+  @if (Auth::user()->roles_id = "3")
     <li class="treeview active">
       <a href="#"><i class="fa fa-desktop"></i> <span>Mengatur Situs</span>
         <span class="pull-right-container">

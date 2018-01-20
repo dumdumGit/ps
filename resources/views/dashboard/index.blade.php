@@ -57,23 +57,30 @@
     </ul>
   </li>
 
-	<li class="treeview">
-		<a href="#"><i class="fa fa-desktop"></i> <span>Mengatur Situs</span>
-			<span class="pull-right-container">
-					<i class="fa fa-angle-left pull-right"></i>
-				</span>
-		</a>
-		<ul class="treeview-menu">
-			<li><a href="/aturheader"><i class="fa fa-edit"></i>Halaman Utama</a></li>
-			<li><a href="/aturprofil"><i class="fa fa-edit"></i>Halaman Profil</a></li>
-		</ul>
-	</li>
+	@if (Auth::user()->roles_id == "3")
+    <li class="treeview">
+      <a href="#"><i class="fa fa-desktop"></i> <span>Mengatur Situs</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+      </a>
+      <ul class="treeview-menu">
+        <li><a href="/aturheader"><i class="fa fa-edit"></i>Halaman Utama</a></li>
+        <li><a href="/aturprofil"><i class="fa fa-edit"></i>Halaman Profil</a></li>
+      </ul>
+    </li>
+  @endif
 @endsection
 
 @section('header')
 	<section class="content-header">
 		<h1>
-			Admin Dashboard<br>
+		@if (Auth::user()->roles_id == "3")
+			Super Admin Dashboard
+			@else
+				Admin Dashboard
+		@endif
+			<br>
 			<small>Selamat datang di admin dashboard Pusat Studi Desain Otomotif</small>
 		</h1>
 	</section>
