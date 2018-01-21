@@ -73,13 +73,23 @@ Route::get('aturprofil', 'SuperAdminController@getAturLamanProfil');
 Route::put('aturprofil/update', 'SuperAdminController@updateLamanProfil');
 
 //Bagian User biasa dan not logged in
+Route::get('publikasi','getController@getPagePublikasi');
+Route::post('publikasi', 'getController@PencarianPublikasi');
+Route::get('publikasi/{id}', 'getController@getPublikasiSingle');
+Route::post('publikasi/{slug}', 'getController@PencarianPublikasi');
+
 Route::get('berita','getController@getPageBerita');
+Route::post('berita', 'getController@PencarianBerita');
 Route::get('berita/{slug}','getController@getBeritaSingle');
+Route::post('berita/{slug}', 'getController@PencarianBerita');
 
 
+Route::get('kegiatan','getController@getPageKegiatan');
+Route::post('kegiatan', 'getController@PencarianKegiatan');
+Route::get('kegiatan/{slug}','getController@getKegiatanSingle');
+Route::post('kegiatan/{slug}', 'getController@PencarianKegiatan');
 
 
-//Route::get('kegiatan/{slug}','adminController@getKegiatanSingle');
 //<start bagian auth only... another rule maybe...
 
 //end>

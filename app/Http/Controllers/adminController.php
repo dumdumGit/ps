@@ -39,10 +39,15 @@ class adminController extends Controller
     {
         return Datatables::of(berita::query())
           ->addColumn('action', function ($berita) {
+            if ($berita->jenis == "kegiatan") {
+              $linknya = "/kegiatan/";
+            } else {
+              $linknya = "/berita/";
+            }
               return
-               '<a style="margin-left:5px" href="/berita/'.$berita->sluglink.'" target="_blank" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
-              .'<a style="margin-left:5px" href="/berita/'.$berita->id.'/edit" class="btn btn-xs btn-info"><i class="glyphicon glyphicon-edit"></i> Ubah</a>'
-              .'<a style="margin-left:5px" href="/berita/'.$berita->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
+               '<a style="margin-left:5px" href="'.$linknya.$berita->sluglink.'" target="_blank" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
+              .'<a style="margin-left:5px" href="'.$linknya.$berita->id.'/edit" class="btn btn-xs btn-info"><i class="glyphicon glyphicon-edit"></i> Ubah</a>'
+              .'<a style="margin-left:5px" href="'.$linknya.$berita->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
           })
           ->addColumn('namaAuthor', function($berita) {
             $namanya = DB::table('users')->where('id','=',$berita->author)->first()->name;
@@ -193,7 +198,7 @@ class adminController extends Controller
             return Datatables::of(publikasi::query())
                 ->addColumn('action', function ($publikasi) {
                     return
-                     '<a style="margin-left:5px" href="'.$publikasi->lokasi.'" target="_blank" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
+                     '<a style="margin-left:5px" href="/publikasi/'.$publikasi->id.'" target="_blank" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
                     .'<a style="margin-left:5px" href="/publikasi/'.$publikasi->id.'/edit" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-edit"></i> Edit</a>'
                     .'<a style="margin-left:5px" href="/publikasi/'.$publikasi->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
                 })
@@ -415,7 +420,7 @@ class adminController extends Controller
             return Datatables::of(riset::query())
               ->addColumn('action', function ($riset) {
                   return
-                   '<a style="margin-left:5px" href="/riset/'.$riset->sluglink.'" target="_blank" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
+                   '<a style="margin-left:5px" href="/riset/'.$riset->id.'" target="_blank" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
                   .'<a style="margin-left:5px" href="/riset/'.$riset->id.'/edit" class="btn btn-xs btn-info"><i class="glyphicon glyphicon-edit"></i> Ubah</a>'
                   .'<a style="margin-left:5px" href="/riset/'.$riset->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
               })

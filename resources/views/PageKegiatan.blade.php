@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-  PS-Otomotif | Berita
+  PS-Otomotif | Kegiatan
 @endsection
 
 @section('csstambahan')
@@ -13,9 +13,9 @@
 @section('listnya')
     <li><a href="/">Home</a></li>
     <li><a href="/profil">Profil</a></li>
-    <li class="active"><a href="/berita">Berita</a></li>
+    <li><a href="/berita">Berita</a></li>
     <li><a href="/publikasi">Publikasi</a></li>
-    <li><a href="/kegiatan">Kegiatan</a></li>
+    <li class="active"><a href="/kegiatan">Kegiatan</a></li>
     <li><a href="/riset">Riset</a></li>
     <li><a href="/kerjasama">Kerjasama</a></li>
     <li><a href="/forum">Forum</a></li>
@@ -111,7 +111,7 @@
 
           <!-- sidebar -->
           <div class="col-md-3 col-sm-4 sidebar blog-sidebar mt-sml-50">
-            <form method="post" class="relative" action="{{url(action('getController@PencarianBerita'))}}">
+            <form method="post" class="relative" action="{{url(action('getController@PencarianKegiatan'))}}">
               {{ csrf_field() }}
               <input name="search" type="search" class="form-control searchbox" placeholder="Cari">
               <button type="submit" class="search-button"><i class="fa fa-search"></i></button>

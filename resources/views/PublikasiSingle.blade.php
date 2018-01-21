@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-  PS-Otomotif | Berita
+  PS-Otomotif | Publikasi
 @endsection
 
 @section('csstambahan')
@@ -13,8 +13,8 @@
 @section('listnya')
     <li><a href="/">Home</a></li>
     <li><a href="/profil">Profil</a></li>
-    <li class="active"><a href="/berita">Berita</a></li>
-    <li><a href="/publikasi">Publikasi</a></li>
+    <li><a href="/berita">Berita</a></li>
+    <li class="active"><a href="/publikasi">Publikasi</a></li>
     <li><a href="/kegiatan">Kegiatan</a></li>
     <li><a href="/riset">Riset</a></li>
     <li><a href="/kerjasama">Kerjasama</a></li>
@@ -24,7 +24,7 @@
 @endsection
 
 @section('konten')
-  <?php $namaAuthor = DB::table('users')->where('id','=',$beritanya->author)->first()->name; ?>
+  <?php $namaAuthor = DB::table('users')->where('id','=',$publikasi->author)->first()->name; ?>
   <div  class="main-wrapper oh">
 
     <!-- Blog Single -->
@@ -46,22 +46,29 @@
               <div class="entry">
 
                 <h1 class="page-header">
-                  <a style="font-size:30px;" href="/berita/{{$beritanya->sluglink}}">{{$beritanya->judul}}</a>
+                  <a style="font-size:30px;" href="/publikasi/{{$publikasi->id}}">{{$publikasi->judul}}</a>
                 </h1>
 
                 <ul class="entry-meta">
                   <li class="entry-date">
-                    <i class="fa fa-calendar-o"></i><a href="#">{{$beritanya->created_at}}</a>
+                    <i class="fa fa-calendar-o"></i><a href="#">{{$publikasi->created_at}}</a>
                   </li>
                   <li class="entry-author">
                     <i class="fa fa-user"></i><a href="#">{{$namaAuthor}}</a>
                   </li>
                 </ul>
                 <div class="entry-content">
-                  {!!  $beritanya->content  !!}
+                  {!!  $publikasi->konten  !!}
                   {{-- end content --}}
                   <div id="disqus_thread"></div>
                 </div> <!-- end endtry content -->
+
+                @if (!empty($publikasi->lokasi))
+                  <div style="margin-top:20px;margin-bottom:20px;" class="filepublikasi">
+                    <?php $namafile = str_replace("/storage/publikasi/","",$publikasi->lokasi) ?>
+                    <h3>File Publikasi : </h3> <a target="_blank" href="{{$publikasi->lokasi}}">{{$namafile}}</a>
+                  </div>
+                @endif
 
               </div>
             </div> <!-- end entry item -->
@@ -71,7 +78,7 @@
           <!-- sidebar -->
           <div class="col-md-3 col-sm-4 sidebar blog-sidebar mt-sml-50">
 
-              <form method="post" class="relative" action="{{url(action('getController@PencarianBerita'))}}">
+              <form method="post" class="relative" action="{{url(action('getController@PencarianPublikasi'))}}">
                 {{ csrf_field() }}
                 <input name="search" type="search" class="form-control searchbox" placeholder="Cari">
                 <button type="submit" class="search-button"><i class="fa fa-search"></i></button>

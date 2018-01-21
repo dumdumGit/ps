@@ -33,6 +33,11 @@
     <script src="{{ URL::asset('js/main.js')}}"></script>
 	</head>
 	<body>
+
+<style type="text/css" media="screen">
+	@yield('csstambahan')
+</style>
+
 	<!--
 	header-img start
 	============================== -->

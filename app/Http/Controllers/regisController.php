@@ -20,7 +20,8 @@ class regisController extends Controller
 
   public function getRegis()
   {
-    return view('FormRegister');
+    $pengaturan = DB::table('pengaturan')->where('id','=','1')->first();
+    return view('FormRegister',['pengaturan'=>$pengaturan]);
   }
 
   public function postRegis()

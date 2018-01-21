@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-  PS-Otomotif | Berita
+  PS-Otomotif | Publikasi
 @endsection
 
 @section('csstambahan')
@@ -13,8 +13,8 @@
 @section('listnya')
     <li><a href="/">Home</a></li>
     <li><a href="/profil">Profil</a></li>
-    <li class="active"><a href="/berita">Berita</a></li>
-    <li><a href="/publikasi">Publikasi</a></li>
+    <li><a href="/berita">Berita</a></li>
+    <li class="active"><a href="/publikasi">Publikasi</a></li>
     <li><a href="/kegiatan">Kegiatan</a></li>
     <li><a href="/riset">Riset</a></li>
     <li><a href="/kerjasama">Kerjasama</a></li>
@@ -36,32 +36,39 @@
           <!-- content -->
           <div class="col-md-9 col-sm-8 blog-content">
             <?php
-            foreach ($berita as $beritanya) {
-              $namaAuthor = DB::table('users')->where('id','=',$beritanya->author)->first()->name;
+            foreach ($publikasi as $publikasinya) {
+              $excerpt = substr(strip_tags($publikasinya->konten), 0, 400);
+              $namaAuthor = DB::table('users')->where('id','=',$publikasinya->author)->first()->name;
               $re = '/img alt="" src="(.*?)"/';
-              if(preg_match_all($re, $beritanya->content, $matches)){ ?>
+              if(preg_match_all($re, $publikasinya->konten, $matches)){ ?>
                 <!-- standard post -->
                 <div class="entry-item">
                   <div class="entry-img">
-                    <a href="/berita/{{$beritanya->sluglink}}">
+                    <a href="/publikasi/{{$publikasinya->id}}">
                       <img class="img-responsive img-thumbnail" src="{{$matches[1][0]}}" alt="">
                     </a>
                   </div>
                   <div class="entry">
                     <h2 class="page-header">
-                      <a style="font-size:25px;" href="/berita/{{$beritanya->sluglink}}">{{ucwords($beritanya->judul)}}</a>
+                      <a style="font-size:25px;" href="/publikasi/{{$publikasinya->id}}">{{ucwords($publikasinya->judul)}}</a>
                     </h2>
                     <ul class="entry-meta">
                       <li class="entry-date">
-                        <i class="fa fa-calendar-o"></i><a href="#">{{$beritanya->created_at}}</a>
+                        <i class="fa fa-calendar-o"></i><a href="#">{{$publikasinya->created_at}}</a>
                       </li>
                       <li class="entry-author">
                         <i class="fa fa-user"></i><a href="#">{{$namaAuthor}}</a>
                       </li>
                     </ul>
                     <div class="entry-content">
-                      <p>{{$beritanya->excerpt}}</p>
-                      <a href="berita/{{$beritanya->sluglink}}" class="btn btn-sm btn-orange">Selengkapnya</a>
+                      <p>{{$excerpt}}</p>
+                      @if (!empty($publikasinya->lokasi))
+                        <div style="margin-top:20px;margin-bottom:20px;" class="filepublikasi">
+                          <?php $namafile = str_replace("/storage/publikasi/","",$publikasinya->lokasi) ?>
+                          <h3>File Publikasi : </h3> <a target="_blank" href="{{$publikasinya->lokasi}}">{{$namafile}}</a>
+                        </div>
+                      @endif
+                      <a href="publikasi/{{$publikasinya->id}}" class="btn btn-sm btn-orange">Selengkapnya</a>
                     </div>
                   </div>
                 </div> <!-- end entry item -->
@@ -72,19 +79,25 @@
                   <div class="entry-item">
                     <div class="entry">
                       <h2 class="page-header">
-                        <a style="font-size:25px;" href="/berita/{{$beritanya->sluglink}}">{{ucwords($beritanya->judul)}}</a>
+                        <a style="font-size:25px;" href="/publikasi/{{$publikasinya->id}}">{{ucwords($publikasinya->judul)}}</a>
                       </h2>
                       <ul class="entry-meta">
                         <li class="entry-date">
-                          <i class="fa fa-calendar-o"></i><a href="#">{{$beritanya->created_at}}</a>
+                          <i class="fa fa-calendar-o"></i><a href="#">{{$publikasinya->created_at}}</a>
                         </li>
                         <li class="entry-author">
                           <i class="fa fa-user"></i><a href="#">{{$namaAuthor}}</a>
                         </li>
                       </ul>
                       <div class="entry-content">
-                        <p>{{$beritanya->excerpt}}</p>
-                        <a href="berita/{{$beritanya->sluglink}}" class="btn btn-sm btn-orange">Selengkapnya</a>
+                        <p>{{$excerpt}}</p>
+                        @if (!empty($publikasinya->lokasi))
+                          <div style="margin-top:20px;margin-bottom:20px;" class="filepublikasi">
+                            <?php $namafile = str_replace("/storage/publikasi/","",$publikasinya->lokasi) ?>
+                            <h3>File Publikasi : </h3> <a target="_blank" href="{{$publikasinya->lokasi}}">{{$namafile}}</a>
+                          </div>
+                        @endif
+                        <a href="publikasi/{{$publikasinya->id}}" class="btn btn-sm btn-orange">Selengkapnya</a>
                       </div>
                     </div>
                   </div> <!-- end entry item -->
@@ -104,14 +117,14 @@
               <a href="#">3</a>
               <a href="#">4</a>
               <a href="#"><i class="fa fa-angle-right"></i></a> --}}
-              {!! $berita->render() !!}
+              {!! $publikasi->render() !!}
             </nav>
 
           </div> <!-- end col -->
 
           <!-- sidebar -->
           <div class="col-md-3 col-sm-4 sidebar blog-sidebar mt-sml-50">
-            <form method="post" class="relative" action="{{url(action('getController@PencarianBerita'))}}">
+            <form method="post" class="relative" action="{{url(action('getController@PencarianPublikasi'))}}">
               {{ csrf_field() }}
               <input name="search" type="search" class="form-control searchbox" placeholder="Cari">
               <button type="submit" class="search-button"><i class="fa fa-search"></i></button>

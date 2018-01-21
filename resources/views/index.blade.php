@@ -185,7 +185,7 @@
 	</section> <!-- end html style -->
 
 
-	<!-- From Blog -->
+	{{-- <!-- From Blog -->
 <section class="section-wrap from-blog style-2 pb-90 bg-light">
 	<div class="container">
 
@@ -254,7 +254,7 @@
 		</div> <!-- end post -->
 
 	</div>
-</section> <!-- end from blog -->
+</section> <!-- end from blog --> --}}
 
 
 

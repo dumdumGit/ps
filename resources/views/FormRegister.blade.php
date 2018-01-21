@@ -7,14 +7,14 @@
 @section('listnya')
   <li><a href="/">Home</a></li>
   <li><a href="/profil">Profil</a></li>
-  <li><a href="/tata-tertib">Berita</a></li>
-  <li><a href="/jadwal">Publikasi</a></li>
-  <li><a href="/berita">Kegiatan</a></li>
-  <li><a href="/kelulusan">Riset</a></li>
-  <li><a href="/rekrut">Kerjasama</a></li>
-  <li><a href="/rekrut">Forum</a></li>
-  <li><a href="/rekrut">Konsultasi</a></li>
-  <li><a href="/rekrut">Video</a></li>
+  <li><a href="/berita">Berita</a></li>
+  <li><a href="/publikasi">Publikasi</a></li>
+  <li><a href="/kegiatan">Kegiatan</a></li>
+  <li><a href="/riset">Riset</a></li>
+  <li><a href="/kerjasama">Kerjasama</a></li>
+  <li><a href="/forum">Forum</a></li>
+  <li><a href="/konsultasi">Konsultasi</a></li>
+  <li><a href="/video">Video</a></li>
 @endsection
 
 @section('konten')
@@ -39,7 +39,7 @@
         <input id="confirm_password" type="password" class="form-control" placeholder="Masukkan password lagi" required>
         <div style="padding-bottom: 10px;"></div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Daftar</button>
-        <label>Sudah punya akun? <a href="login">Login</a></label> <br>
+        <label>Sudah punya akun? <a href="/">Login</a></label> <br>
         <label>kembali ke <a href="/">Beranda</a></label>
       </form>
       @if($errors->any())
