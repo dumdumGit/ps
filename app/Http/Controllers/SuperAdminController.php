@@ -10,11 +10,17 @@ use DB;
 use App\pengguna;
 use App\User;
 use App\berita;
+use App\publikasi;
+use App\files;
+use App\riset;
+use App\pengaturan;
 use Datatables;
 use Illuminate\Support\Facades\Hash;
 use Auth;
 use Illuminate\Support\Facades\Input;
 use Storage;
+use Illuminate\Support\Facades\Redirect;
+use File;
 
 class SuperAdminController extends Controller
 {

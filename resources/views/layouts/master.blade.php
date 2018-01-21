@@ -88,7 +88,7 @@
     <!--
     footer  start
     ============================= -->
-    <section id="footer">
+		<section id="footer">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
@@ -98,22 +98,23 @@
                             <ul>
                                 <li>
                                   <h4><i class="fa fa-phone"></i>Telpon</h4>
-                                  <p>0857701XXXX(SMS only)</p>
+                                  <p>{{$pengaturan->telpon}}</p>
 
                                 </li>
                                 <li>
                                   <h4><i class="fa fa-map-marker"></i>Alamat</h4>
-                                  <p>Jalan Margonda Raya No 100.</p>
+                                  <p>{{$pengaturan->alamat}}</p>
                                 </li>
                                 <li>
                                   <h4><i class="fa fa-envelope"></i>E-mail</h4>
-                                  <p>admin@ps-otomotif.gunadarma.ac.id</p>
-
+                                  <p>{{$pengaturan->email}}</p>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
+
+
                 <!-- .col-md-4 close -->
                 <div class="col-md-4">
                     <div class="block wow fadeInLeft"  data-wow-delay="700ms">
@@ -137,8 +138,9 @@
                 <div class="col-md-4">
                     <div class="block wow fadeInLeft"  data-wow-delay="1100ms">
                         <div class="gallary">
-                            <h3>Universitas <span>Gunadarma</span></h3>
-                            <a target="_blank" href="http://gunadarma.ac.id"><img class="img-responsive" src="images/logogundar.png" /></a>
+                            <h3>{!! $pengaturan->footer3 !!} </h3>
+														<?php echo "http://" . $_SERVER['SERVER_NAME'] . $pengaturan->header ?>
+                            <a target="_blank" href="http://gunadarma.ac.id"><img class="img-responsive" src="{{ asset('images/logogundar.png') }}" /></a>
                         </div>
                     </div>
                 </div>

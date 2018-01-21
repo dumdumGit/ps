@@ -99,6 +99,13 @@
                   {{$berita->content}}
                 </textarea>
                 <br>
+                <label for="">Jenis : </label>
+                <select class="form-control" name="jenis">
+                  <option value="berita_umum">Berita Umum</option>
+                  <option value="berita_penting">Berita Pengumuman</option>
+                  <option value="kegiatan">Kegiatan</option>
+                </select>
+                <br>
                 <input class="pull-right btn btn-lg btn-info" type="submit" name="submit" value="Post">
                 <input type="hidden" name="_method" value="PUT">
           </form>

@@ -94,6 +94,7 @@
               <tr>
                 <th>Judul</th>
                 <th>Pembuat</th>
+                <th>Jenis</th>
                 <th>Terakhir Di Update</th>
                 <th colspan="10%">Action</th>
               </tr>
@@ -121,6 +122,7 @@
         columns: [
           {data: 'judul', name: 'judul'},
           {data: 'namaAuthor', name: 'namaAuthor', orderable: false, searchable: false},
+          {data: 'jenis', name: 'jenis'},
           {data: 'updated_at', name: 'updated_at'},
           {data: 'action', name: 'action', orderable: false, searchable: false}
         ]

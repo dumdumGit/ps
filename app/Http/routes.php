@@ -72,6 +72,12 @@ Route::put('aturheader/update','SuperAdminController@updateUtama');
 Route::get('aturprofil', 'SuperAdminController@getAturLamanProfil');
 Route::put('aturprofil/update', 'SuperAdminController@updateLamanProfil');
 
+//Bagian User biasa dan not logged in
+Route::get('berita','getController@getPageBerita');
+Route::get('berita/{slug}','getController@getBeritaSingle');
+
+
+
 
 //Route::get('kegiatan/{slug}','adminController@getKegiatanSingle');
 //<start bagian auth only... another rule maybe...

@@ -75,6 +75,7 @@ class adminController extends Controller
       $berita->judul = strip_tags(ucwords(Input::get('judul')));
       $berita->author = Auth::user()->id;
       $berita->content = Input::get('isinya');
+      $berita->jenis = Input::get('jenis');
       $berita->excerpt = substr(strip_tags(Input::get('isinya')), 0, 400);
 
       $berita->save();
@@ -88,13 +89,6 @@ class adminController extends Controller
         if(!$berita)
         abort(404);
         return view('dashboard.berita.editberita', ['berita'=>$berita]);
-        // $user = Auth::user();
-        // $idandnanme = explode(",",$berita->author);
-        // if ($user->id == $idandnanme[0] && $user->name == $idandnanme[1]) {
-        //
-        // } else {
-        //   echo "anda bukan penulis artikel tsb, jadi tidak bisa mengedit nya!";
-        // }
       }
 
     //ini buat setelah di klik post/put buat update data nya
@@ -112,6 +106,7 @@ class adminController extends Controller
         $berita->judul = ucwords(Input::get('judul'));
         $berita->author = Auth::user()->id;
         $berita->content = Input::get('isinya');
+        $berita->jenis = Input::get('jenis');
         $berita->excerpt = substr(strip_tags(Input::get('isinya')), 0, 400);
 
         $berita->save();
