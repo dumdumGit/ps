@@ -121,4 +121,33 @@ class getController extends Controller
     return view('PageKegiatan', ['berita'=>$berita,'pengaturan'=>$pengaturan,'query'=>$query]);
   }
 
+  public function getRisetSingle($slug) {
+    $beritanya = DB::table('riset')
+    ->where('sluglink','=',$slug)
+    ->first();
+    if(!$beritanya)
+    abort(404);
+    $pengaturan = DB::table('pengaturan')->where('id','=','1')->first();
+    return view('RisetSingle', ['beritanya'=>$beritanya,'pengaturan'=>$pengaturan]);
+  }
+
+  public function getPageRiset() {
+    $berita = DB::table('riset')
+    ->orderBy('updated_at', 'desc')
+    ->paginate(3);
+    $pengaturan = DB::table('pengaturan')->where('id','=','1')->first();
+    return view('PageRiset', ['berita'=>$berita,'pengaturan'=>$pengaturan]);
+  }
+
+  public function PencarianRiset(Request $request) {
+    $berita = DB::table('riset')
+    ->where('konten', 'like', '%' . $request->search . '%')
+    ->orWhere('judul', 'like', '%' . $request->search . '%')
+    ->orderBy('updated_at', 'desc')
+    ->paginate(3);
+    $query = $request->search;
+    $pengaturan = DB::table('pengaturan')->where('id','=','1')->first();
+    return view('PageRiset', ['berita'=>$berita,'pengaturan'=>$pengaturan,'query'=>$query]);
+  }
+
 }

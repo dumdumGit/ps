@@ -339,6 +339,7 @@ class adminController extends Controller
             if ($ext == "pdf" || $ext == "png" || $ext == "jpg" || $ext == "docx" || $ext == "doc") {
               //store
               $destinasi = public_path('storage/files/');
+              dd($request->file('tes'));
               $proses = $request->file('tes')->move($destinasi,$namafile);
               //masukin db
               $files = new files();
@@ -420,7 +421,7 @@ class adminController extends Controller
             return Datatables::of(riset::query())
               ->addColumn('action', function ($riset) {
                   return
-                   '<a style="margin-left:5px" href="/riset/'.$riset->id.'" target="_blank" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
+                   '<a style="margin-left:5px" href="/riset/'.$riset->sluglink.'" target="_blank" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-star"></i> Lihat</a>'
                   .'<a style="margin-left:5px" href="/riset/'.$riset->id.'/edit" class="btn btn-xs btn-info"><i class="glyphicon glyphicon-edit"></i> Ubah</a>'
                   .'<a style="margin-left:5px" href="/riset/'.$riset->id.'/delete" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-minus"></i> Hapus</a>';
               })

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-  PS-Otomotif | Kegiatan
+  PS-Otomotif | Riset
 @endsection
 
 @section('csstambahan')
@@ -13,10 +13,10 @@
 @section('listnya')
     <li><a href="/">Home</a></li>
     <li><a href="/profil">Profil</a></li>
-    <li><a href="/berita">Berita</a></li>
+    <li><a href="/riset">Berita</a></li>
     <li><a href="/publikasi">Publikasi</a></li>
-    <li class="active"><a href="/kegiatan">Kegiatan</a></li>
-    <li><a href="/riset">Riset</a></li>
+    <li><a href="/kegiatan">Kegiatan</a></li>
+    <li class="active"><a href="/riset">Riset</a></li>
     <li><a href="/kerjasama">Kerjasama</a></li>
     <li><a href="/forum">Forum</a></li>
     <li><a href="/konsultasi">Konsultasi</a></li>
@@ -39,17 +39,17 @@
             foreach ($berita as $beritanya) {
               $namaAuthor = DB::table('users')->where('id','=',$beritanya->author)->first()->name;
               $re = '/img alt="" src="(.*?)"/';
-              if(preg_match_all($re, $beritanya->content, $matches)){ ?>
+              if(preg_match_all($re, $beritanya->konten, $matches)){ ?>
                 <!-- standard post -->
                 <div class="entry-item">
                   <div class="entry-img">
-                    <a href="/kegiatan/{{$beritanya->sluglink}}">
+                    <a href="/riset/{{$beritanya->sluglink}}">
                       <img class="img-responsive img-thumbnail" src="{{$matches[1][0]}}" alt="">
                     </a>
                   </div>
                   <div class="entry">
                     <h2 class="page-header">
-                      <a style="font-size:25px;" href="/kegiatan/{{$beritanya->sluglink}}">{{ucwords($beritanya->judul)}}</a>
+                      <a style="font-size:25px;" href="/riset/{{$beritanya->sluglink}}">{{ucwords($beritanya->judul)}}</a>
                     </h2>
                     <ul class="entry-meta">
                       <li class="entry-date">
@@ -61,7 +61,7 @@
                     </ul>
                     <div class="entry-content">
                       <p>{{$beritanya->excerpt}}</p>
-                      <a href="kegiatan/{{$beritanya->sluglink}}" class="btn btn-sm btn-orange">Selengkapnya</a>
+                      <a href="berita/{{$beritanya->sluglink}}" class="btn btn-sm btn-orange">Selengkapnya</a>
                     </div>
                   </div>
                 </div> <!-- end entry item -->
@@ -72,7 +72,7 @@
                   <div class="entry-item">
                     <div class="entry">
                       <h2 class="page-header">
-                        <a style="font-size:25px;" href="/kegiatan/{{$beritanya->sluglink}}">{{ucwords($beritanya->judul)}}</a>
+                        <a style="font-size:25px;" href="/riset/{{$beritanya->sluglink}}">{{ucwords($beritanya->judul)}}</a>
                       </h2>
                       <ul class="entry-meta">
                         <li class="entry-date">
@@ -84,7 +84,7 @@
                       </ul>
                       <div class="entry-content">
                         <p>{{$beritanya->excerpt}}</p>
-                        <a href="kegiatan/{{$beritanya->sluglink}}" class="btn btn-sm btn-orange">Selengkapnya</a>
+                        <a href="berita/{{$beritanya->sluglink}}" class="btn btn-sm btn-orange">Selengkapnya</a>
                       </div>
                     </div>
                   </div> <!-- end entry item -->
@@ -111,7 +111,7 @@
 
           <!-- sidebar -->
           <div class="col-md-3 col-sm-4 sidebar blog-sidebar mt-sml-50">
-            <form method="post" class="relative" action="{{url(action('getController@PencarianKegiatan'))}}">
+            <form method="post" class="relative" action="{{url(action('getController@PencarianRiset'))}}">
               {{ csrf_field() }}
               <input name="search" type="search" class="form-control searchbox" placeholder="Cari">
               <button type="submit" class="search-button"><i class="fa fa-search"></i></button>

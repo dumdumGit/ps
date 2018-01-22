@@ -83,11 +83,16 @@ Route::post('berita', 'getController@PencarianBerita');
 Route::get('berita/{slug}','getController@getBeritaSingle');
 Route::post('berita/{slug}', 'getController@PencarianBerita');
 
-
 Route::get('kegiatan','getController@getPageKegiatan');
 Route::post('kegiatan', 'getController@PencarianKegiatan');
 Route::get('kegiatan/{slug}','getController@getKegiatanSingle');
 Route::post('kegiatan/{slug}', 'getController@PencarianKegiatan');
+
+Route::get('riset', 'getController@getPageRiset');
+Route::post('riset','getController@PencarianRiset');
+Route::get('riset/{slug}','getController@getRisetSingle');
+Route::post('riset/{slug}','getController@PencarianRiset');
+
 
 
 //<start bagian auth only... another rule maybe...
