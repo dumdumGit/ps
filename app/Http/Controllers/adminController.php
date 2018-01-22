@@ -339,9 +339,10 @@ class adminController extends Controller
             if ($ext == "pdf" || $ext == "png" || $ext == "jpg" || $ext == "docx" || $ext == "doc") {
               //store
               $destinasi = public_path('storage/files/');
-              dd($request->file('tes'));
               $proses = $request->file('tes')->move($destinasi,$namafile);
               //masukin db
+              // $destinasi = "/storage/app/files";
+              // $proses = $request->file('tes')->move($destinasi,$namafile);
               $files = new files();
               $files->author = Auth::user()->id;
               $files->namafile = $namafile;
